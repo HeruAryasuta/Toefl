@@ -1,0 +1,135 @@
+:root {
+    --primary-color: #213555; 
+    --secondary-color: #4E6D8B; 
+    --background-color: #F4F6F9; 
+    --text-color: #333333; 
+    --button-color: #1D72B8; 
+    --hover-color: #145B8D; 
+    --border-color: #CED4DA; 
+}
+
+
+/* Navbar link hover effect */
+.navbar-nav .nav-link {
+    border-radius: 5px; 
+    padding: 0.5rem 1rem; 
+    color: var(--secondary-color)
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: transparent;
+}
+
+.navbar-nav .nav-item {
+    padding-left: 20px; 
+    padding-right: 20px;
+}
+/* 
+.navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.7); 
+    transition: background-color 0.3s ease;
+} */
+
+.navbar.shadow-sm {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+    width: 70px; 
+    height: auto;
+}
+
+
+.btn-color-primary {
+    background-color: var(--primary-color);
+    color: var(--border-color);
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease; /* Transisi halus */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow efek */
+}
+
+.btn-color-primary:hover {
+    background-color: var(--hover-color);
+    color: var(--background-color);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Shadow lebih besar saat hover */
+    transform: translateY(-2px); /* Efek angkat tombol */
+}
+
+.btn-color-primary:active {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Kembalikan shadow ke semula */
+    transform: translateY(2px); /* Efek tekan tombol */
+}
+
+.btn-lg {
+    font-size: 20px;
+}
+
+/* daftar */
+.thead-custom {
+    background-color: var(--color-primary); 
+    color: var(--background-color);
+}
+
+.btn-color-primary-daftar {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border-color: var(--color-primary);
+}
+
+.btn-color-primary-daftar:hover {
+    background-color: var(--hover-color);
+    color: var(--background-color);
+    border-color: var(--color-primary);
+}
+
+/* Styling Tabel */
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9; /* Striping warna */
+}
+
+.table-bordered {
+    border: 1px solid #ddd; /* Border Tabel */
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}
+
+/* dokumen dan panduan */
+
+.list-group-item {
+    border: none;
+    padding: 15px 10px;
+}
+.list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+.list-group-item img {
+    width: 40px;
+    height: auto;
+}
+.btn-outline-success {
+    border-radius: 20px;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.container ul.list-group .list-group-item {
+    border: none;
+    padding: 15px 10px;
+}
+.container ul.list-group .btn-outline-light {
+    border-radius: 20px;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
