@@ -12,14 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('riwayat_nilai', function (Blueprint $table) {
-            $table->id('id_riwayat');
-            $table->date('tanggal_test');
-            $table->float('listening', 5);
-            $table->float('structure', 5);
-            $table->float('reading', 5);
-            $table->float('total_nilai', 8);
-            $table->timestamps();
+            $table->id('id_riwayat'); // Primary key
+            $table->unsignedBigInteger('id_pendaftaran'); // Foreign key to pendaftaran
+            $table->date('tanggal_test'); // Date of test
+            $table->float('listening', 8, 2); // Listening score
+            $table->float('structure', 8, 2); // Structure score
+            $table->float('reading', 8, 2); // Reading score
+            $table->float('total_nilai', 8, 2); // Total score
+            $table->timestamps(); // Created_at and updated_at
+        
+            // Foreign key constraint
+            $table->foreign('id_pendaftaran')
+                ->references('id_pendaftaran')
+                ->on('pendaftaran')
+                ->onDelete('cascade');
         });
+        
     }
 
     /**

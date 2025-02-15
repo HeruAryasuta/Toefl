@@ -24,7 +24,7 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3">
-                        <label for="email" class="form-label">NIK/NIM</label>
+                        <label for="email" class="form-label">Email</label>
                         <input id="email" type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus>
 
                         @error('email')

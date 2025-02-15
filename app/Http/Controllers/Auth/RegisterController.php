@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -50,11 +50,17 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'nim' => ['required', 'string', 'max:50', 'unique:users'], 
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'nim' => ['required', 'string', 'max:50', 'unique:users'],
+            'fakultas' => ['required', 'string', 'max:255'],
+            'prodi' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'no_hp' => ['required', 'string', 'max:15', 'regex:/^(\+62|62|0)[0-9]{9,13}$/'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
     }
+
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -66,9 +72,14 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'nim' => $data['nim'],
-            'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'nim' => $data['nim'],
+            'fakultas' => $data['fakultas'],
+            'prodi' => $data['prodi'],
+            'email' => $data['email'],
+            'no_hp' => $data['no_hp'],
+            'foto' => isset($data['foto']) ? $data['foto']->store('uploads/foto', 'public') : null,
         ]);
     }
+    
 }

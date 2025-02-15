@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->unsignedBigInteger('id_jadwal')->nullable();
             $table->foreign('id_jadwal')->references('id_jadwal')->on('jadwal_test')->onDelete('set null');
+            $table->enum('role', ['admin', 'user'])->default('user');
             $table->timestamps();
         });
 

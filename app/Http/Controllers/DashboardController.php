@@ -13,6 +13,6 @@ class DashboardController extends Controller
     */
    public function index()
    {
-       return view('dashboard');  // Mengarahkan ke view 'dashboard.blade.php'
+       return view('backend.dashboard-admin.dashboard-admin');  // Mengarahkan ke view 'dashboard.blade.php'
    }
 }

@@ -56,36 +56,53 @@
 <h1 class="text-center color-primary mt-5" id="jadwal">Jadwal Tes TOEFL</h1>
 <div class="container mb-5" style="background-color: var(--primary-color); border-radius: 8px; padding: 20px;">
     <!-- Bagian Jadwal Tes -->
-    <table class="table table-striped table-hover table-bordered shadow-sm rounded-lg">
-        <thead class="text-white" style="background-color: var(--primary-color);">
-            <tr>
-                <th>No</th>
-                <th>Tanggal Test</th>
-                <th>Jam Test</th>
-                <th>Lokasi</th>
-                <th>Kuota</th>
-                <th>Daftar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($jadwalTests as $jadwal)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $jadwal->tanggal_test }}</td>
-                    <td>{{ $jadwal->jam_test }}</td>
-                    <td>{{ $jadwal->lokasi }}</td>
-                    <td>{{ $jadwal->kuota }}</td>
-                    <td>
-                        <a href="#" class="btn btn-color-primary-daftar btn-sm rounded-pill" style="padding: 8px 15px; margin-top: 5px;">Daftar</a>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="6" class="text-center">Jadwal belum tersedia</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Jadwal TOEFL Prediction</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal Tes</th>
+                                <th>Waktu</th>
+                                <th>Lokasi</th>
+                                <th>Kuota</th>
+                                <th>Daftar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($jadwalTests as $jadwal)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        {{ \Carbon\Carbon::parse($jadwal->tanggal_test)->translatedFormat('j F Y') }}
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($jadwal->jam_test)->format('H:i') }}</td>
+                                    <td>{{ $jadwal->lokasi }}</td>
+                                    <td>{{ $jadwal->kuota }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary btn-sm">Daftar</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Jadwal belum tersedia</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <div>Total Baris: {{ $jadwalTests->count() }}</div>
+                {{ $jadwalTests->links() }}
+            </div>
+        </div>
+</div>
 </div>
 
 
@@ -102,7 +119,7 @@
                 <img src="{{ asset('assets/pdf-icon.png') }}" alt="PDF Icon" class="me-3" style="width: 40px;">
                 <span class="text-white">PANDUAN PEMBAYARAN TOEFL PREDICTION</span>
             </div>
-            <a href="{{ url('/dokumen/pembayaran') }}" class="btn btn-outline-light btn-sm" aria-label="Unduh Panduan Pembayaran TOEFL">
+            <a href="{{ url('assets/Panduan_Pembayaran_TOEFL.pdf') }}" class="btn btn-outline-light btn-sm" download aria-label="Unduh Panduan Pembayaran TOEFL">
                 <i class="bi bi-download"></i> Unduh
             </a>
         </li>
@@ -112,7 +129,7 @@
                 <img src="{{ asset('assets/pdf-icon.png') }}" alt="PDF Icon" class="me-3" style="width: 40px;">
                 <span class="text-white">PANDUAN PENDAFTARAN TOEFL PREDICTION</span>
             </div>
-            <a href="{{ url('/dokumen/pendaftaran') }}" class="btn btn-outline-light btn-sm" aria-label="Unduh Panduan Pembayaran TOEFL">
+            <a href="{{ url('assets/Panduan_Pembayaran_TOEFL.pdf') }}" class="btn btn-outline-light btn-sm" download aria-label="Unduh Panduan Pembayaran TOEFL">
                 <i class="bi bi-download"></i> Unduh
             </a>
         </li>

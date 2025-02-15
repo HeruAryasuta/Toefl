@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,19 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
+
+    protected function authenticated(Request $request, $user)
+    {
+        \Log::info('User role: ' . $user->role);
+        if ($user->role === 'admin') {
+            return redirect()->route('dashboard');
+        } elseif ($user->role === 'user') {
+            return redirect()->route('dashboard.user');
+        }
+
+        return redirect()->route('login')->with('error', 'Role tidak valid.');
+    }
 
     /**
      * Create a new controller instance.

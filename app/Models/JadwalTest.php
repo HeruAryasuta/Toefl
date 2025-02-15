@@ -10,9 +10,8 @@ class JadwalTest extends Model
     use HasFactory;
 
     protected $table = 'jadwal_test';
-    
+    protected $primaryKey = 'id_jadwal';
     protected $fillable = [
-        'id_jadwal',
         'tanggal_test',
         'jam_test',
         'lokasi',
