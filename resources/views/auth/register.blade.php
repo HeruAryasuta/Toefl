@@ -114,13 +114,13 @@
                                 </div>
 
                                     <div class="col-md-6 mb-2">
-                                        <label for="photo" class="form-label">Unggah Pas Foto *</label>
-                                        <input id="photo" type="file" class="form-control @error('photo') is-invalid @enderror" name="photo" required>
-                                        @error('photo')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <label for="foto" class="form-label">Unggah Pas Foto *</label>
+                                        <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" required>
+                                    @error('foto') <!-- Perbaikan di sini -->
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                 </div>
 

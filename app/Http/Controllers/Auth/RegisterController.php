@@ -78,7 +78,7 @@ class RegisterController extends Controller
             'prodi' => $data['prodi'],
             'email' => $data['email'],
             'no_hp' => $data['no_hp'],
-            'foto' => isset($data['foto']) ? $data['foto']->store('uploads/foto', 'public') : null,
+            'foto' => isset($data['foto']) ? $data['foto']->store('images', 'public') : null,
         ]);
     }
     
