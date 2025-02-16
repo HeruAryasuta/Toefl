@@ -1,8 +1,3 @@
-## Fitur yang Perlu Dikerjakan
-
-- **Dashboard**: Halaman dashboard untuk pengguna yang sudah terdaftar. Dashboard ini akan menampilkan informasi terkait pendaftaran dan jadwal tes TOEFL.
-- **Perbaikan di Halaman Login dan Registrasi**: Perbaikan pada halaman login dan registrasi untuk menangani error atau masalah tampilan dan fungsionalitas.
-
 ## Teknologi yang Digunakan
 
 - **Laravel**: Framework PHP untuk backend.
