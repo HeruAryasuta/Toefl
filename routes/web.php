@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/data-peserta', [UserController::class, 'index'])->name('data-peserta');
 Route::get('/nilai-peserta', [NilaiController::class, 'index'])->name('nilai-peserta');
+Route::post('/nilai-peserta', [NilaiController::class, 'store'])->name('nilai-peserta.store');
 Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran');
 Route::get('/penjadwalan', [JadwalTestController::class, 'index'])->name('penjadwalan');
 Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
@@ -103,6 +104,9 @@ Route::prefix('admin')->middleware('auth')->group(function() {
     Route::put('pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
     Route::delete('pendaftaran/{id}', [PendaftaranController::class, 'destroy'])->name('pendaftaran.destroy');
 });
+
+// export
+Route::get('data-peserta/export', [UserController::class, 'export']);
 
 
 

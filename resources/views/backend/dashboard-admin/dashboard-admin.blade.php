@@ -1,22 +1,13 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Admin Dashboard</title>
-    <!-- CSS files -->
-    <link href="{{asset('assets/css-dashboard/tabler.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-flags.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-payments.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-vendors.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/demo.min.css?1692870487')}}" rel="stylesheet"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+@extends('layouts.app')
+
+@section('title', 'Dashboard Admin')
+
+@section('content')
+
     <style>
       :root {
-        --primary-color: #4361ee;
-        --secondary-color: #3f37c9;
+        --primary-color: #213555;
+        --secondary-color: #4E6D8B;
         --accent-color: #4895ef;
         --light-color: #f8f9fa;
         --dark-color: #212529;
@@ -66,7 +57,7 @@
       }
       
       .quick-action:hover {
-        background-color: var(--primary-color);
+        background-color: var(--secondary-color);
         color: white;
       }
       
@@ -93,15 +84,14 @@
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: var(--primary-color);
+        background-color: var(--secondary-color);
       }
       
       .chart-container {
         min-height: 300px;
       }
     </style>
-  </head>
-  <body>
+
     <div class="page">
       <!-- Section Sidebar -->
       @include('backend.sidebar')
@@ -116,23 +106,6 @@
                 <h2 class="page-title">Dashboard</h2>
                 <div class="text-muted mt-1">
                   <i class="far fa-calendar-alt me-1"></i> {{ now()->format('l, d F Y') }}
-                </div>
-              </div>
-              <div class="col-auto ms-auto d-print-none">
-                <div class="btn-list">
-                  <span class="d-none d-sm-inline">
-                    <a href="#" class="btn btn-white">
-                      <i class="fas fa-file-export me-2"></i>
-                      Export
-                    </a>
-                  </span>
-                  <a href="#" class="btn btn-primary d-none d-sm-inline-block">
-                    <i class="fas fa-plus me-2"></i>
-                    Create new report
-                  </a>
-                  <a href="#" class="btn btn-primary d-sm-none btn-icon">
-                    <i class="fas fa-plus"></i>
-                  </a>
                 </div>
               </div>
             </div>
@@ -261,7 +234,7 @@
           
           <!-- Quick Actions & Recent Activity -->
           <div class="row mb-4">
-            <div class="col-lg-8">
+            <div class="col-12">
               <div class="card shadow-sm mb-4">
                 <div class="card-header bg-transparent">
                   <h3 class="card-title">Aksi Cepat</h3>
@@ -269,39 +242,27 @@
                 <div class="card-body">
                   <div class="row g-3">
                     <div class="col-6">
-                      <a href="#" class="quick-action d-block text-center p-3 border rounded">
-                        <i class="fas fa-user-plus fa-2x mb-2" style="color: var(--primary-color);"></i>
-                        <div>Tambah Pengguna</div>
+                      <a href="{{ route('data-peserta') }}" class="quick-action d-block text-center p-3 border rounded">
+                        <i class="fas fa-users fa-2x mb-2" style="color: var(--primary-color);"></i>
+                        <div>Data Peserta</div>
                       </a>
                     </div>
                     <div class="col-6">
-                      <a href="#" class="quick-action d-block text-center p-3 border rounded">
-                        <i class="fas fa-file-invoice fa-2x mb-2" style="color: var(--primary-color);"></i>
-                        <div>Buat Laporan</div>
+                      <a href="{{ route('pendaftaran') }}" class="quick-action d-block text-center p-3 border rounded">
+                        <i class="fas fa-user-check fa-2x mb-2" style="color: var(--primary-color);"></i>
+                        <div>Data Pendaftar</div>
                       </a>
                     </div>
                     <div class="col-6">
-                      <a href="#" class="quick-action d-block text-center p-3 border rounded">
-                        <i class="fas fa-cog fa-2x mb-2" style="color: var(--primary-color);"></i>
-                        <div>Pengaturan</div>
+                      <a href="{{ route('penjadwalan') }}" class="quick-action d-block text-center p-3 border rounded">
+                        <i class="fas fa-calendar-alt fa-2x mb-2" style="color: var(--primary-color);"></i>
+                        <div>Penjadwalan</div>
                       </a>
                     </div>
                     <div class="col-6">
-                      <a href="#" class="quick-action d-block text-center p-3 border rounded">
-                        <i class="fas fa-bell fa-2x mb-2" style="color: var(--primary-color);"></i>
-                        <div>Notifikasi</div>
-                      </a>
-                    </div>
-                    <div class="col-6">
-                      <a href="#" class="quick-action d-block text-center p-3 border rounded">
-                        <i class="fas fa-chart-bar fa-2x mb-2" style="color: var(--primary-color);"></i>
-                        <div>Statistik</div>
-                      </a>
-                    </div>
-                    <div class="col-6">
-                      <a href="#" class="quick-action d-block text-center p-3 border rounded">
-                        <i class="fas fa-question-circle fa-2x mb-2" style="color: var(--primary-color);"></i>
-                        <div>Bantuan</div>
+                      <a href="{{ route('nilai-peserta') }}" class="quick-action d-block text-center p-3 border rounded">
+                        <i class="fas fa-graduation-cap fa-2x mb-2" style="color: var(--primary-color);"></i>
+                        <div>Nilai Peserta</div>
                       </a>
                     </div>
                   </div>
@@ -386,9 +347,4 @@
       var userDistChart = new ApexCharts(document.querySelector("#user-distribution-chart"), userDistOptions);
       userDistChart.render();
     </script>
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-      @csrf
-    </form>
-  </body>
-</html>
+@endsection

@@ -1,20 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Admin Dashboard - Jadwal</title>
-    <!-- CSS files -->
-    <link href="{{ asset('assets/css-dashboard/tabler.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-flags.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-payments.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-vendors.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/demo.min.css') }}" rel="stylesheet"/>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+@extends('layouts.app')
+
+@section("title", "Penjadwalan")
+
+@section('content')
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -264,8 +252,6 @@
             }
         }
     </style>
-</head>
-<body>
     <div class="page">
         <!-- Sidebar -->
         @include('backend.sidebar')
@@ -281,7 +267,12 @@
                         </div>
                         <div class="col-auto ms-auto d-print-none">
                             <button class="btn btn-primary d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                                <i class="bi bi-plus-lg me-2"></i>Tambah Jadwal Baru
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 5l0 14"></path>
+                                <path d="M5 12l14 0"></path>
+                            </svg>
+                            Tambah Jadwal Baru
                             </button>
                         </div>
                     </div>
@@ -297,13 +288,10 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h3 class="card-title mb-0">
-                            <i class="bi bi-calendar-check me-2"></i>Tabel Jadwal
+                        Tabel Jadwal
                         </h3>
                         <div class="input-group input-group-sm w-auto">
                             <input type="text" class="form-control" placeholder="Cari jadwal...">
-                            <button class="btn btn-light" type="button">
-                                <i class="bi bi-search"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -508,8 +496,4 @@
         </div>
     </div>
 
-    <!-- JS Scripts -->
-    <script src="{{ asset('assets/js-dashboard/tabler.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataPesertaExport;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -79,5 +80,11 @@ class UserController extends Controller
         Excel::import(new UsersImport, $request->file('import_file'));
 
         return redirect()->back()->with('status', 'Berhasil Import');
+    }
+
+    public function export()
+    {
+        $filename = 'data-peserta.xlsx';
+        return Excel::download(new DataPesertaExport, $filename);
     }
 }

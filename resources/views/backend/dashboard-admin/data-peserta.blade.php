@@ -1,24 +1,13 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Data Peserta - Admin Dashboard</title>
-    <!-- CSS files -->
-    <link href="{{ asset('assets/css-dashboard/tabler.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-flags.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-payments.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-vendors.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/demo.min.css?1692870487') }}" rel="stylesheet"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"/>
+@extends('layouts.app')
+
+@section('title', 'Data Peserta')
+
+@section('content')
+    
     <style>
       :root {
-        --primary-color: #4361ee;
-        --secondary-color: #3f37c9;
+        --primary-color: #213555;
+        --secondary-color: #4E6D8B;
         --accent-color: #4895ef;
         --light-color: #f8f9fa;
         --dark-color: #212529;
@@ -121,8 +110,6 @@
         }
       }
     </style>
-  </head>
-  <body>
     <div class="page">
       <!-- Sidebar Section -->
       @include('backend.sidebar')
@@ -218,7 +205,7 @@
                 Data Peserta
               </h3>
               <div>
-                <a href="#" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ url('data-peserta/export') }}" class="btn btn-outline-secondary btn-sm">
                   <i class="fas fa-file-export me-1"></i> Export
                 </a>
                 <a href="#" class="btn btn-outline-primary btn-sm ms-2">
@@ -453,9 +440,4 @@
         });
       });
     </script>
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-      @csrf
-    </form>
-  </body>
-</html>
+@endsection

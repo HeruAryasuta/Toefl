@@ -47,7 +47,7 @@
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <img src="{{asset('assets/nilai.png')}}" alt="">
                             </span>
-                            <span class="nav-link-title">Data Nilai Peserta</span>
+                            <span class="nav-link-title">Data Nilai</span>
                         </a>
                     </li>
                 @else
