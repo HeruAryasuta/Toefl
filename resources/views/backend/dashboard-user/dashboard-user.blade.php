@@ -152,12 +152,12 @@
                       <i class="fas fa-clipboard-list"></i>
                     </div>
                     <div>
-                      <h4 class="mb-0">2</h4>
-                      <span class="text-muted">Total Tes</span>
+                      <h4 class="mb-0">{{ $jadwalCount }}</h4>
+                      <span class="text-muted">Jadwal Tersedia</span>
                     </div>
                   </div>
                   <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $progress }}" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
               </div>
@@ -192,7 +192,7 @@
                       <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div>
-                      <h4 class="mb-0">1</h4>
+                      <h4 class="mb-0">{{ $pendaftaranCount }}</h4>
                       <span class="text-muted">Tes Mendatang</span>
                     </div>
                   </div>
@@ -244,7 +244,7 @@
                 
                 <!-- View Results -->
                 <div class="col-6 mb-3">
-                  <a href="#" class="text-decoration-none">
+                  <a href="{{ route('jadwal-user') }}" class="text-decoration-none">
                     <div class="card quick-action-card shadow-sm h-100">
                       <div class="card-body p-3 text-center">
                         <div class="d-flex flex-column align-items-center">
@@ -278,47 +278,59 @@
             
             <!-- Upcoming Test -->
             <div class="col-md-6 mb-4">
-              <h3 class="section-title">Tes Mendatang</h3>
-              <div class="card upcoming-test-card shadow-sm">
-                <div class="card-body p-4">
-                  <div class="d-flex align-items-center mb-4">
-                    <div class="card-icon me-3" style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
-                      <i class="fas fa-calendar-day"></i>
+            @if ($pendaftaran->isNotEmpty()) 
+                <h3 class="section-title">Tes Mendatang</h3>
+
+                @foreach($pendaftaran as $data)
+                    <div class="card upcoming-test-card shadow-sm mb-4">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="card-icon me-3" 
+                                    style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-0">TOEFL Prediction Test</h4>
+                                    <span class="text-muted">
+                                        {{ \Carbon\Carbon::parse(optional($data->jadwal)->tanggal_test)->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-clock text-muted me-2"></i>
+                                    <span>{{ optional($data->jadwal)->jam_test ?? '-' }} - Selesai WIB</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                    <span>{{ optional($data->jadwal)->lokasi ?? 'Lokasi belum tersedia' }}</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-info-circle text-muted me-2"></i>
+                                    <span>Status: <span class="badge bg-success">Terdaftar</span></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="{{ route('cetak.kartu', ['id' => $data->id_pendaftaran]) }}" 
+                                  class="btn btn-outline-primary me-2" target="_blank">
+                                    <i class="fas fa-print me-1"></i> Cetak Kartu
+                                </a>
+                                <a href="#" class="btn btn-outline-secondary">
+                                    <i class="fas fa-info-circle me-1"></i> Detail
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                      <h4 class="mb-0">TOEFL Prediction Test</h4>
-                      <span class="text-muted">Sabtu, 20 Februari 2025</span>
-                    </div>
-                  </div>
-                  
-                  <div class="mb-3">
-                    <div class="d-flex align-items-center mb-2">
-                      <i class="fas fa-clock text-muted me-2"></i>
-                      <span>09:00 - 11:30 WIB</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-2">
-                      <i class="fas fa-map-marker-alt text-muted me-2"></i>
-                      <span>Gedung UPT Bahasa, Lantai 2</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <i class="fas fa-info-circle text-muted me-2"></i>
-                      <span>Status: <span class="badge bg-success">Terdaftar</span></span>
-                    </div>
-                  </div>
-                  
-                  <div class="mt-4">
-                    <a href="#" class="btn btn-outline-primary me-2">
-                      <i class="fas fa-print me-1"></i> Cetak Kartu
-                    </a>
-                    <a href="#" class="btn btn-outline-secondary">
-                      <i class="fas fa-info-circle me-1"></i> Detail
-                    </a>
-                  </div>
+                @endforeach
+            @else
+                <div class="alert alert-warning">
+                    Anda belum mendaftar untuk tes TOEFL.
                 </div>
-              </div>
-            </div>
+            @endif
+        </div>
           </div>
-          
         </div>
       </div>
     </div>

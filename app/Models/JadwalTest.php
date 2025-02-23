@@ -17,4 +17,9 @@ class JadwalTest extends Model
         'lokasi',
         'kuota',
     ];
+
+    public function pendaftaran()
+{
+    return $this->hasMany(Pendaftar::class, 'id_jadwal');
+}
 }

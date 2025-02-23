@@ -23,7 +23,7 @@
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <img src="{{asset('assets/task.png')}}" alt="">
                             </span>
-                            <span class="nav-link-title">Data Peserta</span>
+                            <span class="nav-link-title">Data Pengguna</span>
                         </a>
                     </li>
                     <li class="nav-item {{ request()->routeIs('pendaftaran') ? 'active' : '' }}">

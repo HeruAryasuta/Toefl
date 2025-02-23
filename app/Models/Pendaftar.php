@@ -22,15 +22,16 @@ class Pendaftar extends Model
         'id_users',
         'id_jadwal',
         'status_pendaftaran',
+        'status_pembayaran',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_users');
+        return $this->belongsTo(User::class, 'id_users', 'id_users');
     }
 
     public function jadwal()
     {
-        return $this->belongsTo(JadwalTest::class, 'id_jadwal');
+        return $this->belongsTo(JadwalTest::class, 'id_jadwal', 'id_jadwal');
     }
 }

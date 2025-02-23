@@ -38,14 +38,18 @@ Route::post('/nilai-peserta', [NilaiController::class, 'store'])->name('nilai-pe
 Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran');
 Route::get('/penjadwalan', [JadwalTestController::class, 'index'])->name('penjadwalan');
 Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
+Route::put('/biodata/{id}', [BiodataController::class, 'update'])->name('biodata.update');
 Route::get('/jadwal-user', [JadwalUserController::class, 'index'])->name('jadwal-user');
 Route::post('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'index'])->name('jadwal-user.pendaftaran');
 Route::post('/pendaftaran', [PendaftaranUserController::class, 'store'])->name('pendaftaran.store');
+Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])->name('cetak.kartu');
 
 
-
+Route::post('/print-score', [NilaiController::class, 'printScore'])->name('print.score');
+Route::post('/print-certificate', [NilaiController::class, 'printCertificate'])->name('print.certificate');
+Route::get('/get-test-dates', [NilaiController::class, 'getTestDates']);
 
 
 
@@ -107,8 +111,7 @@ Route::prefix('admin')->middleware('auth')->group(function() {
 
 // export
 Route::get('data-peserta/export', [UserController::class, 'export']);
-
-
+Route::get('pendaftaran/export', [PendaftaranController::class, 'exportPendaftar']);
 
 
 // Rute untuk otentikasi (login/register)

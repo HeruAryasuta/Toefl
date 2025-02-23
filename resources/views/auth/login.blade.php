@@ -19,7 +19,7 @@
             <div class="card shadow p-4" style="width: 100%; max-width: 400px; border-radius: 12px;">
                 <h4 class="text-center mb-4">TOEFL</h4>
                 <p class="text-center text-muted">Akun | Mahasiswa</p>
-                <p class="text-center text-muted">Bagi Pengguna Luar UNIMAL dapat login dengan NIK dan Password terdaftar</p>
+                <p class="text-center text-muted">Jika Ada Keliruan Mohon Hubungi Pihak UPT Bahasa</p>
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf

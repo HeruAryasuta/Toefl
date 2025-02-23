@@ -25,6 +25,21 @@ class PendaftaranUserController extends Controller
             'id_jadwal' => 'required|exists:jadwal_test,id_jadwal'
         ]);
 
+        $jadwal = JadwalTest::findOrFail($request->id_jadwal);
+
+        if ($jadwal->kuota <= 0) {
+            return response()->json(['error' => 'Kuota sudah penuh!'], 400);
+        }
+
+        $pendaftaran = Pendaftar::create([
+            'id_users' => Auth::id(),
+            'id_jadwal' => $request->id_jadwal,
+            'status_pendaftaran' => 'pending',
+            'status_pembayaran' => 'pending',
+        ]);
+
+        $jadwal->decrement('kuota');
+
         // Simpan Pendaftaran
         $pendaftaran = Pendaftar::create([
             'id_users' => Auth::id(),
@@ -35,8 +50,6 @@ class PendaftaranUserController extends Controller
 
         $user = Auth::user();
         $jadwal = $pendaftaran->jadwal_test;
-        
-
         $orderId = 'ORDER-' . uniqid();
         $amount = 500000; // Harga pendaftaran
         $transactionDetails = [

@@ -126,6 +126,32 @@
             margin-bottom: 1rem;
             opacity: 0.3;
         }
+        .empty-state {
+        text-align: center;
+        color: #6c757d;
+        padding: 20px;
+    }
+    
+    .empty-state i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .action-buttons .btn {
+        transition: all 0.3s ease;
+    }
+    
+    .action-buttons .btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .modal-header {
+        border-bottom: none;
+    }
+    
+    .modal-footer {
+        border-top: none;
+    }
     </style>
   </head>
   <body>
@@ -171,9 +197,19 @@
             <!-- Daftar Nilai -->
             <div class="card mb-4">
                 <div class="card-header bg-info text-white">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-trophy me-2"></i>
-                        <h5 class="mb-0">Daftar Nilai</h5>
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col d-flex align-items-center">
+                            <i class="fas fa-trophy me-2"></i>
+                            <h5 class="mb-0">Daftar Nilai</h5>
+                        </div>
+                        <div class="action-buttons col-auto">
+                            <button class="btn btn-light btn-sm me-2" data-bs-toggle="modal" data-bs-target="#printScoreModal">
+                                <i class="fas fa-print me-1"></i> Cetak Nilai
+                            </button>
+                            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#printCertificateModal">
+                                <i class="fas fa-certificate me-1"></i> Cetak Sertifikat
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -192,16 +228,99 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="6" class="py-4">
-                                    <div class="empty-state">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <p class="mb-0">Belum ada data nilai yang tersedia.</p>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr>
+                         <td colspan="6" class="py-4">
+                            <div class="empty-state">
+                                <i class="fas fa-chart-bar"></i>
+                                <p class="mb-0">Belum ada data nilai yang tersedia.</p>
+                            </div>
+                         </td>
+                        </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Modal Cetak Nilai -->
+            <div class="modal fade" id="printScoreModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">
+                                <i class="fas fa-print me-2"></i>
+                                Cetak Nilai
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="{{ route('print.score') }}" method="POST" target="_blank">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Pilih Periode Test</label>
+                                    <select id="testDateSelect" class="form-select" name="test_date" required>
+                                        <option value="">Pilih tanggal test...</option>
+                                        <!-- Add your date options here -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Format Dokumen</label>
+                                    <div class="d-flex">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" name="format" value="pdf" checked>
+                                            <label class="form-check-label">PDF</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="format" value="excel">
+                                            <label class="form-check-label">Excel</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-info text-white">
+                                    <i class="fas fa-print me-1"></i> Cetak
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Cetak Sertifikat -->
+            <div class="modal fade" id="printCertificateModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">
+                                <i class="fas fa-certificate me-2"></i>
+                                Cetak Sertifikat
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="{{ route('print.certificate') }}" method="POST" target="_blank">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Pilih Periode Test</label>
+                                    <select id="testDateSelect" class="form-select" name="test_date" required>
+                                        <option value="">Pilih tanggal test...</option>
+                                        <!-- Add your date options here -->
+                                    </select>
+                                </div>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Sertifikat hanya dapat dicetak jika nilai total TOEFL Anda minimal 450.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-info text-white">
+                                    <i class="fas fa-certificate me-1"></i> Cetak Sertifikat
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             
@@ -275,6 +394,21 @@
     <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/get-test-dates',
+                type: 'GET',
+                success: function (data) {
+                    let select = $('#testDateSelect');
+                    data.forEach(function (date) {
+                        select.append('<option value="' + date.tanggal_test + '">' + date.tanggal_test + '</option>');
+                    });
+                }
+            });
+        });
+    </script>
     
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf

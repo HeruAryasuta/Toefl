@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_pendaftaran'); // Primary key
             $table->unsignedBigInteger('id_users'); // Foreign key to users
             $table->unsignedBigInteger('id_jadwal'); // Foreign key to jadwal_test
-            $table->string('status_pendaftaran')->default('pending'); // Status (e.g., pending, approved, rejected)
+            $table->string('status_pendaftaran')->default('pending'); //  $table->enum('role', ['admin', 'user'])->default('user');Status (e.g., pending, approved, rejected)
             $table->timestamps();
         
             // Foreign key constraints

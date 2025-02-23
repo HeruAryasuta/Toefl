@@ -6,6 +6,9 @@ use App\Models\Nilai;
 use App\Models\Pendaftar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\NilaiExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class NilaiController extends Controller
 {
@@ -100,4 +103,51 @@ class NilaiController extends Controller
             return redirect()->back()->with('error', 'Gagal menghapus nilai TOEFL.');
         }
     }
+
+    public function printScore(Request $request)
+    {
+        $tanggal_test = $request->input('test_date');
+        $format = $request->input('format');
+
+        $nilai = Nilai::where('tanggal_test', $tanggal_test)->get();
+
+        if ($nilai->isEmpty()) {
+            return back()->with('error', 'Tidak ada data nilai untuk tanggal yang dipilih.');
+        }
+
+        if ($format === 'pdf') {
+            $pdf = Pdf::loadView('backend.print.nilai', compact('nilai', 'tanggal_test'))
+                ->setPaper('A4', 'portrait');
+            return $pdf->stream("Nilai_TOEFL_$tanggal_test.pdf");
+        } elseif ($format === 'excel') {
+            return Excel::download(new NilaiExport($tanggal_test), "Nilai_TOEFL_$tanggal_test.xlsx");
+        }
+
+        return back()->with('error', 'Format tidak valid.');
+    }
+
+    public function printCertificate(Request $request)
+    {
+        $tanggal_test = $request->input('test_date');
+
+        $nilai = Nilai::where('tanggal_test', $tanggal_test)
+            ->where('total_nilai', '>=', 450)
+            ->first();
+
+        if (!$nilai) {
+            return back()->with('error', 'Sertifikat hanya dapat dicetak jika nilai minimal 450.');
+        }
+
+        $pdf = PDF::loadView('backend.print.sertifikat', compact('nilai'))
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->stream("Sertifikat_TOEFL_$tanggal_test.pdf");
+    }
+
+    public function getTestDates()
+    {
+    $dates = Nilai::select('tanggal_test')->distinct()->orderBy('tanggal_test', 'desc')->get();
+    return response()->json($dates);
+    }
+
 }

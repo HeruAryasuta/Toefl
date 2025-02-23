@@ -1,110 +1,161 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Admin Dashboard</title>
-    <!-- CSS files -->
-    <link href="{{ asset('assets/css-dashboard/tabler.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-flags.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-payments.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-vendors.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/demo.min.css?1692870487')}}" rel="stylesheet"/>
+    <title>Jadwal Ujian</title>
+    
+    <!-- Existing CSS -->
+    <link href="{{ asset('assets/css-dashboard/tabler.min.css') }}" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Additional styling -->
     <style>
-        .table-container {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
+        .card {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
         }
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: bold;
+        
+        .card-header {
+            background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%);
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem;
         }
-        .empty-state {
-            text-align: center;
-            color: #999;
-            font-style: italic;
+        
+        .table th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            color: #495057;
+            font-weight: 600;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .table tr:hover {
+            background-color: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-daftar {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-daftar:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-1px);
+        }
+        
+        .btn-kembali {
+            border: 2px solid #0dcaf0;
+            color: #0dcaf0;
+            background: transparent;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-kembali:hover {
+            background-color: #0dcaf0;
+            color: white;
+        }
+        
+        .badge-kuota-habis {
+            background-color: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        .card-footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            padding: 1rem;
         }
     </style>
-  </head>
-  <body>
+</head>
+<body class="bg-light">
     <div class="page">
-      <!-- Section Sidebar -->
-      @include('backend.sidebar')
-
-      <!-- Konten Utama -->
-      <div class="page-wrapper">
-        <div class="container-xl">
-            <div class="page-header d-print-none">
-                <h2 class="section-title">Daftar Jadwal Ujian</h2>
-            </div>
-
-            <div class="mb-3 d-flex justify-content-md-end">
-                <a href="{{ route('jadwal-user') }}" class="btn btn-outline-info">< Kembali</a>
-            </div>
-
-            <!-- Daftar Jadwal -->
-            <div class="card mb-3">
-                <div class="card-header bg-info text-white text-center" style="--bs-bg-opacity: .5;">
-                    <h5>Jadwal Ujian</h5>
+        @include('backend.sidebar')
+        
+        <div class="page-wrapper">
+            <div class="container-xl py-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title m-0">Daftar Jadwal Ujian</h2>
+                    <a href="{{ route('jadwal-user') }}" class="btn btn-kembali">
+                        <i class="fas fa-arrow-left me-2"></i>Kembali
+                    </a>
                 </div>
-                <div class="card-body">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>No</th>
-                                <th>Tanggal Test</th>
-                                <th>Jam Test</th>
-                                <th>Lokasi</th>
-                                <th>Kuota</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($jadwalTests as $jadwalItem)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_test)->translatedFormat('j F Y') }}</td>
-                                    <td>{{ $jadwalItem->jam_test }}</td>
-                                    <td>{{ $jadwalItem->lokasi }}</td>
-                                    <td>{{ $jadwalItem->kuota }}</td>
-                                    <td>
-                                        @if($jadwalItem->kuota > 0)
-                                            <form action="{{ route('pendaftaran.store') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="id_jadwal" value="{{ $jadwalItem->id_jadwal }}">
-                                                <input type="hidden" name="tanggal_test" value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
-                                                <button type="submit" class="btn btn-primary btn-sm">Daftar</button>
-                                            </form>
-                                        @else
-                                            <span class="badge badge-danger">Kuota Habis</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
 
-                    <div class="card-footer d-flex justify-content-between">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h5 class="card-title mb-0">Jadwal Ujian</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" width="5%">No</th>
+                                        <th>Tanggal Test</th>
+                                        <th>Jam Test</th>
+                                        <th>Lokasi</th>
+                                        <th class="text-center">Kuota</th>
+                                        <th class="text-center" width="15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($jadwalTests as $jadwalItem)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_test)->translatedFormat('j F Y') }}</td>
+                                            <td>{{ $jadwalItem->jam_test }}</td>
+                                            <td>{{ $jadwalItem->lokasi }}</td>
+                                            <td class="text-center">{{ $jadwalItem->kuota }}</td>
+                                            <td class="text-center">
+                                                @if($jadwalItem->kuota > 0)
+                                                    <form action="{{ route('pendaftaran.store') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id_jadwal" value="{{ $jadwalItem->id_jadwal }}">
+                                                        <input type="hidden" name="tanggal_test" value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
+                                                        <button type="submit" class="btn btn-daftar">Daftar</button>
+                                                    </form>
+                                                @else
+                                                    <span class="badge badge-kuota-habis">Kuota Habis</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4 text-muted">
+                                                Tidak ada jadwal ujian tersedia
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
                         <div>Total Baris: {{ $jadwalTests->count() }}</div>
-                        {{ $jadwalTests->links() }}
+                        <div>{{ $jadwalTests->links() }}</div>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
     </div>
 
-    <!-- Libs JS -->
     <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-  </body>
+</body>
 </html>
