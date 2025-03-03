@@ -1,19 +1,18 @@
 :root {
-    --primary-color: #213555; 
-    --secondary-color: #4E6D8B; 
-    --background-color: #F4F6F9; 
-    --text-color: #333333; 
-    --button-color: #1D72B8; 
-    --hover-color: #145B8D; 
-    --border-color: #CED4DA; 
+    --primary-color: #213555;
+    --secondary-color: #4e6d8b;
+    --background-color: #f4f6f9;
+    --text-color: #333333;
+    --button-color: #1d72b8;
+    --hover-color: #145b8d;
+    --border-color: #ced4da;
 }
-
 
 /* Navbar link hover effect */
 .navbar-nav .nav-link {
-    border-radius: 5px; 
-    padding: 0.5rem 1rem; 
-    color: var(--secondary-color)
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    color: var(--secondary-color);
 }
 
 .navbar-nav .nav-link:hover {
@@ -21,7 +20,7 @@
 }
 
 .navbar-nav .nav-item {
-    padding-left: 20px; 
+    padding-left: 20px;
     padding-right: 20px;
 }
 /* 
@@ -35,10 +34,9 @@
 }
 
 .navbar-brand img {
-    width: 70px; 
+    width: 70px;
     height: auto;
 }
-
 
 .btn-color-primary {
     background-color: var(--primary-color);
@@ -73,7 +71,7 @@
 
 /* daftar */
 .thead-custom {
-    background-color: var(--color-primary); 
+    background-color: var(--color-primary);
     color: var(--background-color);
 }
 

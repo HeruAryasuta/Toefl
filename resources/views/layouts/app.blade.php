@@ -45,5 +45,29 @@
 
     <!-- Bootstrap JS (Optional but recommended for interactive components like dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('success'))
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+    @endif
+    @if (session('error'))
+    <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            text: "{{ session('error') }}",
+            title: "Gagal!",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+    @endif
 </body>
 </html>

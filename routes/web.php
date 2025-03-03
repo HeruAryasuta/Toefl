@@ -9,6 +9,7 @@ use App\Http\Controllers\JadwalUserController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PendaftaranUserController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -112,6 +113,12 @@ Route::prefix('admin')->middleware('auth')->group(function() {
 // export
 Route::get('data-peserta/export', [UserController::class, 'export']);
 Route::get('pendaftaran/export', [PendaftaranController::class, 'exportPendaftar']);
+
+//transaksi
+
+
+Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
 
 
 // Rute untuk otentikasi (login/register)

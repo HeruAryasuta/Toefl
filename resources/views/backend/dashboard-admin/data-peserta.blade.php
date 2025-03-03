@@ -30,8 +30,9 @@
     }
 
     .card-header {
-    background: linear-gradient(135deg, #f5f7fb 0%, #e4e7ed 100%);
+    background-color: #fff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.5rem;
     }
 
     .btn-primary {

@@ -224,7 +224,7 @@
       <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title">
         <i class="fas fa-user-check me-2 text-primary"></i>
-        Pendaftar
+        Data Pendaftar
         </h3>
         <div>
         <a href="{{ url('pendaftaran/export') }}" class="btn btn-outline-secondary btn-sm">

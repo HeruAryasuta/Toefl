@@ -41,7 +41,6 @@ class JadwalUserController extends Controller
 
     public function showJadwalPeserta()
     {
-    // Ambil data pendaftaran berdasarkan pengguna yang sedang login
     $daftars = Pendaftar::where('id_users', auth()->id())->get(); 
 
     return view('backend.dashboard-user.jadwal-peserta', compact('daftars'));

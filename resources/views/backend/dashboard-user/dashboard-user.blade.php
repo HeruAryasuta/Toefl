@@ -1,18 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>User Dashboard</title>
-    <!-- CSS files -->
-    <link href="{{asset('assets/css-dashboard/tabler.min.css?1692870487') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-flags.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-payments.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/tabler-vendors.min.css?1692870487')}}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css-dashboard/demo.min.css?1692870487')}}" rel="stylesheet"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+@extends('layouts.app')
+
+@section('title', 'Dashboard User')
+
+@section('content')
+
+
     <style>
       :root {
         --primary-color: #3498db;
@@ -105,8 +97,7 @@
         border-radius: 4px;
       }
     </style>
-  </head>
-  <body>
+
     <div class="page">
       <!-- Section Sidebar -->
       @include('backend.sidebar')
@@ -342,5 +333,5 @@
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
     @csrf
     </form>
-  </body>
-</html>
+
+@endsection

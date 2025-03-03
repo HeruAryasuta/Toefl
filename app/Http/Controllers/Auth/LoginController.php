@@ -32,9 +32,9 @@ class LoginController extends Controller
     {
         \Log::info('User role: ' . $user->role);
         if ($user->role === 'admin') {
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with('success', 'Selamat datang, ' . $user->name);
         } elseif ($user->role === 'user') {
-            return redirect()->route('dashboard.user');
+            return redirect()->route('dashboard.user')->with('success', 'Selamat datang, ' . $user->name);
         }
 
         return redirect()->route('login')->with('error', 'Role tidak valid.');

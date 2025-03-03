@@ -12,8 +12,7 @@ class JadwalTestController extends Controller
     $user = auth()->user();
 
     // Ambil semua jadwal
-    $jadwalTests = JadwalTest::all();
-    $jadwalTests = JadwalTest::paginate(10);
+    $jadwalTests = JadwalTest::where('tanggal_test', '>=', now())->paginate(10);
     
     if ($user && $user->role === 'admin') {
         return view('backend.dashboard-admin.penjadwalan', compact('jadwalTests'));

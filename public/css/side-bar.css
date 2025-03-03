@@ -1,0 +1,131 @@
+.navbar-vertical {
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand-image {
+    height: 32px;
+    width: auto;
+}
+
+.navbar-brand-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.navbar-nav {
+    padding: 1rem 0;
+}
+
+.nav-item {
+    margin: 0.25rem 1rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.nav-item.active .nav-link {
+    background: var(--active-bg);
+    color: var(--active-color);
+    font-weight: 600;
+}
+
+.nav-link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.nav-item.active .nav-link-icon {
+    color: var(--active-color);
+}
+
+.nav-link-title {
+    font-size: 0.875rem;
+}
+
+.navbar-toggler {
+    display: none;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.logout-section {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem;
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+    background: #b91c1c;
+}
+
+.btn-logout img {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 992px) {
+    .navbar-vertical {
+        transform: translateX(-100%);
+    }
+
+    .navbar-vertical.show {
+        transform: translateX(0);
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+}
