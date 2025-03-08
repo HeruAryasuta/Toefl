@@ -103,8 +103,9 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title">
-                        <i class="fas fa-info-circle me-2 text-primary"></i>
-                        Tabel Nilai TOEFL</h3>
+                            <i class="fas fa-info-circle me-2 text-primary"></i>
+                            Tabel Nilai TOEFL
+                        </h3>
                         <div class="input-group input-group-sm w-auto">
                             <input type="text" class="form-control" placeholder="Cari Nama...">
                         </div>
@@ -201,13 +202,15 @@
                             <select class="form-select" name="id_pendaftaran" required>
                                 <option value="">Pilih Peserta</option>
                                 @foreach($pendaftaran as $p)
-                                    <option value="{{ $p->id_pendaftaran }}">{{ $p->nama }}</option>
+                                    <option value="{{ $p->id_pendaftaran }}" data-tanggal-test="{{ $p->tanggal_test }}">
+                                        {{ $p->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label required">Tanggal Test</label>
-                            <input type="date" class="form-control" name="tanggal_test" required>
+                            <input type="date" class="form-control" id="tanggal_test" name="tanggal_test" disabled>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -401,6 +404,22 @@
             });
         });
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("select[name='id_pendaftaran']").addEventListener("change", function () {
+        let idPendaftaran = this.value;
+        if (idPendaftaran) {
+            fetch(`/get-tanggal-test/${idPendaftaran}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("tanggal_test").value = data.tanggal_test;
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+    });
+});
+</script>
 
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf

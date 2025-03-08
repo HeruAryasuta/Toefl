@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalTest;
 use App\Models\Nilai;
 use App\Models\Pendaftar;
 use Illuminate\Http\Request;
@@ -14,14 +15,18 @@ class NilaiController extends Controller
 {
     public function index()
     {
-    $riwayatNilai = Nilai::with('pendaftaran')
-        ->orderBy('tanggal_test', 'desc')
-        ->get();
+        $riwayatNilai = Nilai::with('pendaftaran')
+            ->orderBy('tanggal_test', 'desc')
+            ->get();
 
-    $pendaftaran = Pendaftar::all(); // Variabel $pendaftaran didefinisikan
+        $pendaftaran = Pendaftar::where('status_pendaftaran', 'Diterima')
+            ->join('users', 'pendaftaran.id_users', '=', 'users.id_users')
+            ->select('pendaftaran.*', 'users.name')
+            ->get();
+        // dd($pendaftaran);
 
-    // Kirim kedua variabel ke view
-    return view('backend.dashboard-admin.nila-peserta', compact('riwayatNilai', 'pendaftaran'));
+        // Kirim kedua variabel ke view
+        return view('backend.dashboard-admin.nila-peserta', compact('riwayatNilai', 'pendaftaran'));
     }
 
 
@@ -57,12 +62,12 @@ class NilaiController extends Controller
             return redirect()->back()->with('error', 'Gagal menyimpan nilai TOEFL. Silakan coba lagi.');
         }
     }
-    
+
 
     public function update(Request $request, $id_riwayat)
     {
         $validated = $request->validate([
-            'tanggal_test' => 'required|date',
+            'id_pendaftaran' => 'required|exists:pendaftaran,id_pendaftaran',
             'listening' => 'required|numeric|min:0|max:100',
             'structure' => 'required|numeric|min:0|max:100',
             'reading' => 'required|numeric|min:0|max:100',
@@ -71,13 +76,16 @@ class NilaiController extends Controller
         try {
             DB::beginTransaction();
 
-            $riwayatNilai = Nilai::findOrFail($id_riwayat);
-            
+            $pendaftaran = Pendaftar::where('id_pendaftaran', $validated['id_pendaftaran'])->firstOrFail();
+            $jadwal = JadwalTest::where('id_jadwal', $pendaftaran->id_jadwal)->firstOrFail();
+
             // Calculate total score
             $totalNilai = ($validated['listening'] + $validated['structure'] + $validated['reading']) / 3;
 
-            $riwayatNilai->update([
-                'tanggal_test' => $validated['tanggal_test'],
+            Nilai::create([
+                'id_pendaftaran' => $validated['id_pendaftaran'],
+                'id_jadwal' => $pendaftaran->id_jadwal,
+                'tanggal_test' => $jadwal->tanggal_test, // Ambil tanggal dari jadwal
                 'listening' => $validated['listening'],
                 'structure' => $validated['structure'],
                 'reading' => $validated['reading'],
@@ -97,7 +105,7 @@ class NilaiController extends Controller
         try {
             $riwayatNilai = Nilai::findOrFail($id_riwayat);
             $riwayatNilai->delete();
-            
+
             return redirect()->back()->with('success', 'Nilai TOEFL berhasil dihapus.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus nilai TOEFL.');
@@ -146,8 +154,19 @@ class NilaiController extends Controller
 
     public function getTestDates()
     {
-    $dates = Nilai::select('tanggal_test')->distinct()->orderBy('tanggal_test', 'desc')->get();
-    return response()->json($dates);
+        $dates = Nilai::select('id_jadwal', 'tanggal_test')
+            ->distinct()
+            ->orderBy('tanggal_test', 'desc')
+            ->get();
+        return response()->json($dates);
+    }
+
+    public function getTanggalTest($id_pendaftaran)
+    {
+        $pendaftaran = Pendaftar::where('id_pendaftaran', $id_pendaftaran)->firstOrFail();
+        $jadwal = JadwalTest::where('id_jadwal', $pendaftaran->id_jadwal)->first();
+
+        return response()->json(['tanggal_test' => $jadwal ? $jadwal->tanggal_test : null]);
     }
 
 }

@@ -51,6 +51,7 @@ Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])-
 Route::post('/print-score', [NilaiController::class, 'printScore'])->name('print.score');
 Route::post('/print-certificate', [NilaiController::class, 'printCertificate'])->name('print.certificate');
 Route::get('/get-test-dates', [NilaiController::class, 'getTestDates']);
+Route::get('/get-tanggal-test/{id_pendaftaran}', [NilaiController::class, 'getTanggalTest']);
 
 
 
