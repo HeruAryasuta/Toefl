@@ -43,24 +43,26 @@ class NilaiController extends Controller
         try {
             DB::beginTransaction();
 
-            // Calculate total score (average of all sections)
             $totalNilai = ($validated['listening'] + $validated['structure'] + $validated['reading']) / 3;
+            $pendaftaran = Pendaftar::findOrFail($validated['id_pendaftaran']);
+            $jadwal = JadwalTest::findOrFail($pendaftaran->id_jadwal);
 
             Nilai::create([
                 'id_pendaftaran' => $validated['id_pendaftaran'],
-                'tanggal_test' => $validated['tanggal_test'],
+                'tanggal_test' => $jadwal->tanggal_test,
                 'listening' => $validated['listening'],
                 'structure' => $validated['structure'],
                 'reading' => $validated['reading'],
                 'total_nilai' => round($totalNilai, 2)
             ]);
-
             DB::commit();
             return redirect()->back()->with('success', 'Nilai TOEFL berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menyimpan nilai TOEFL. Silakan coba lagi.');
         }
+
+
     }
 
 
@@ -76,16 +78,16 @@ class NilaiController extends Controller
         try {
             DB::beginTransaction();
 
+            $nilai = Nilai::findOrFail($id_riwayat);
             $pendaftaran = Pendaftar::where('id_pendaftaran', $validated['id_pendaftaran'])->firstOrFail();
             $jadwal = JadwalTest::where('id_jadwal', $pendaftaran->id_jadwal)->firstOrFail();
 
             // Calculate total score
             $totalNilai = ($validated['listening'] + $validated['structure'] + $validated['reading']) / 3;
 
-            Nilai::create([
+            $nilai->update([
                 'id_pendaftaran' => $validated['id_pendaftaran'],
-                'id_jadwal' => $pendaftaran->id_jadwal,
-                'tanggal_test' => $jadwal->tanggal_test, // Ambil tanggal dari jadwal
+                'tanggal_test' => $jadwal->tanggal_test,
                 'listening' => $validated['listening'],
                 'structure' => $validated['structure'],
                 'reading' => $validated['reading'],
@@ -114,7 +116,7 @@ class NilaiController extends Controller
 
     public function printScore(Request $request)
     {
-        $tanggal_test = $request->input('test_date');
+        $tanggal_test = $request->input('tanggal_test');
         $format = $request->input('format');
 
         $nilai = Nilai::where('tanggal_test', $tanggal_test)->get();

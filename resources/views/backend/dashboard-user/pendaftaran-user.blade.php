@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Jadwal Ujian</title>
-    
+
     <!-- Existing CSS -->
-    <link href="{{ asset('assets/css-dashboard/tabler.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css-dashboard/tabler.min.css') }}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Additional styling -->
     <style>
         .card {
@@ -17,30 +18,30 @@
             border: none;
             transition: all 0.3s ease;
         }
-        
+
         .card-header {
             background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%);
             color: white;
             border-bottom: none;
             padding: 1.5rem;
         }
-        
+
         .table th {
             background-color: #f8f9fa;
             border-bottom: 2px solid #dee2e6;
             color: #495057;
             font-weight: 600;
         }
-        
+
         .table td {
             vertical-align: middle;
         }
-        
+
         .table tr:hover {
             background-color: #f8f9fa;
             transition: all 0.2s ease;
         }
-        
+
         .btn-daftar {
             background-color: #0d6efd;
             color: white;
@@ -49,12 +50,12 @@
             border-radius: 5px;
             transition: all 0.3s ease;
         }
-        
+
         .btn-daftar:hover {
             background-color: #0b5ed7;
             transform: translateY(-1px);
         }
-        
+
         .btn-kembali {
             border: 2px solid #0dcaf0;
             color: #0dcaf0;
@@ -63,12 +64,12 @@
             border-radius: 5px;
             transition: all 0.3s ease;
         }
-        
+
         .btn-kembali:hover {
             background-color: #0dcaf0;
             color: white;
         }
-        
+
         .badge-kuota-habis {
             background-color: #dc3545;
             color: white;
@@ -76,7 +77,7 @@
             border-radius: 5px;
             font-weight: 500;
         }
-        
+
         .card-footer {
             background-color: #f8f9fa;
             border-top: 1px solid #dee2e6;
@@ -84,10 +85,11 @@
         }
     </style>
 </head>
+
 <body class="bg-light">
     <div class="page">
         @include('backend.sidebar')
-        
+
         <div class="page-wrapper">
             <div class="container-xl py-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -118,7 +120,8 @@
                                     @forelse ($jadwalTests as $jadwalItem)
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_test)->translatedFormat('j F Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_test)->translatedFormat('j F Y') }}
+                                            </td>
                                             <td>{{ $jadwalItem->jam_test }}</td>
                                             <td>{{ $jadwalItem->lokasi }}</td>
                                             <td class="text-center">{{ $jadwalItem->kuota }}</td>
@@ -126,8 +129,10 @@
                                                 @if($jadwalItem->kuota > 0)
                                                     <form action="{{ route('pendaftaran.store') }}" method="POST">
                                                         @csrf
-                                                        <input type="hidden" name="id_jadwal" value="{{ $jadwalItem->id_jadwal }}">
-                                                        <input type="hidden" name="tanggal_test" value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
+                                                        <input type="hidden" name="id_jadwal"
+                                                            value="{{ $jadwalItem->id_jadwal }}">
+                                                        <input type="hidden" name="tanggal_test"
+                                                            value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
                                                         <button type="submit" class="btn btn-daftar">Daftar</button>
                                                     </form>
                                                 @else
@@ -158,4 +163,5 @@
     <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </body>
+
 </html>

@@ -15,7 +15,7 @@ class PendaftaranUserController extends Controller
 {
     public function index()
     {
-        $jadwalTests = JadwalTest::paginate(10);
+        $jadwalTests = JadwalTest::where('tanggal_test', '>=', now())->paginate(10);
         return view('backend.dashboard-user.pendaftaran-user', compact('jadwalTests'));
     }
 

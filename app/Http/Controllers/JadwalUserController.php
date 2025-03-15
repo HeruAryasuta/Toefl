@@ -41,7 +41,11 @@ class JadwalUserController extends Controller
 
     public function showJadwalPeserta()
     {
-    $daftars = Pendaftar::where('id_users', auth()->id())->get(); 
+        $daftars = Pendaftar::where('id_users', auth()->id())
+        ->whereHas('jadwal', function ($query) {
+            $query->where('tanggal_test', '>=', now());
+        })
+        ->get(); 
 
     return view('backend.dashboard-user.jadwal-peserta', compact('daftars'));
     }

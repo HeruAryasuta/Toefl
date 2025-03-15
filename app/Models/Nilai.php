@@ -11,6 +11,7 @@ class Nilai extends Model
 
     protected $fillable = [
         'id_riwayat',
+        'id_pendaftaran',
         'tanggal_test',
         'listening',
         'structure',

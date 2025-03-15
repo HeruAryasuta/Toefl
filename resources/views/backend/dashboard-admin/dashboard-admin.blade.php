@@ -144,7 +144,7 @@
             <i class="fas fa-users fa-2x" style="color: var(--primary-color);"></i>
           </div>
           <div>
-            <h3 class="mb-0 fw-bold">1,234</h3>
+            <h3 class="mb-0 fw-bold">{{ number_format($totalUsers) }}</h3>
             <p class="text-muted mb-0">Total Pengguna</p>
           </div>
           </div>
@@ -160,7 +160,7 @@
             <i class="fas fa-shopping-cart fa-2x" style="color: var(--success-color);"></i>
           </div>
           <div>
-            <h3 class="mb-0 fw-bold">560</h3>
+            <h3 class="mb-0 fw-bold">{{ number_format($transaksiCount) }}</h3>
             <p class="text-muted mb-0">Total Transaksi</p>
           </div>
           </div>
