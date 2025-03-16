@@ -12,9 +12,14 @@
         }
 
         .card-header {
-            background-color: #fff;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             padding: 1rem 1.5rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0;
+            color: #334155;
         }
 
         .table td {
@@ -75,7 +80,7 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-vcenter table-hover">
                             <thead>
                                 <tr>
                                     <th>No</th>

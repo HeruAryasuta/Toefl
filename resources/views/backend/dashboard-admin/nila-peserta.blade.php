@@ -111,6 +111,15 @@
                         </div>
                     </div>
                     <div class="card-body">
+                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                         <div class="table-responsive">
                             <table class="table table-vcenter table-bordered">
                                 <thead>
@@ -129,7 +138,7 @@
                                     @foreach($riwayatNilai as $index => $nilai)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $nilai->pendaftar->nama }}</td>
+                                            <td class="fw-medium">{{ $nilai->pendaftaran->user->name ?? 'Nama tidak tersedia' }}</td>
                                             <td>{{ $nilai->tanggal_test->format('d/m/Y') }}</td>
                                             <td class="text-center">{{ number_format($nilai->listening, 1) }}</td>
                                             <td class="text-center">{{ number_format($nilai->structure, 1) }}</td>
@@ -216,21 +225,21 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label required">Listening</label>
-                                    <input type="number" class="form-control" name="listening" step="0.1" min="0" max="100"
+                                    <input type="number" class="form-control" name="listening" step="0.1" min="31" max="68"
                                         required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label required">Structure</label>
-                                    <input type="number" class="form-control" name="structure" step="0.1" min="0" max="100"
+                                    <input type="number" class="form-control" name="structure" step="0.1" min="31" max="68"
                                         required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label required">Reading</label>
-                                    <input type="number" class="form-control" name="reading" step="0.1" min="0" max="100"
+                                    <input type="number" class="form-control" name="reading" step="0.1" min="31" max="68"
                                         required>
                                 </div>
                             </div>
@@ -269,32 +278,32 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label class="form-label">Peserta</label>
-                                <input type="text" class="form-control" value="{{ $nilai->pendaftaran->nama }}" disabled>
+                                <input type="text" class="form-control" value="{{ $nilai->pendaftaran->user->name ?? 'Nama tidak tersedia' }}" disabled>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label required">Tanggal Test</label>
                                 <input type="date" class="form-control" name="tanggal_test"
-                                    value="{{ $nilai->tanggal_test->format('Y-m-d') }}" required>
+                                    value="{{ $nilai->tanggal_test->format('Y-m-d') }}" disabled>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label required">Listening</label>
-                                        <input type="number" class="form-control" name="listening" step="0.1" min="0" max="100"
+                                        <input type="number" class="form-control" name="listening" step="0.1" min="31" max="68"
                                             value="{{ $nilai->listening }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label required">Structure</label>
-                                        <input type="number" class="form-control" name="structure" step="0.1" min="0" max="100"
+                                        <input type="number" class="form-control" name="structure" step="0.1" min="31" max="68"
                                             value="{{ $nilai->structure }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label required">Reading</label>
-                                        <input type="number" class="form-control" name="reading" step="0.1" min="0" max="100"
+                                        <input type="number" class="form-control" name="reading" step="0.1" min="31" max="68"
                                             value="{{ $nilai->reading }}" required>
                                     </div>
                                 </div>
@@ -366,7 +375,6 @@
             function validateScore(input) {
                 let value = parseFloat(input.value);
                 if (value < 0) input.value = 0;
-                if (value > 100) input.value = 100;
             }
 
             // Setup calculation for both modals

@@ -230,7 +230,7 @@
         <a href="{{ url('pendaftaran/export') }}" class="btn btn-outline-secondary btn-sm">
           <i class="fas fa-file-export me-1"></i> Export
         </a>
-        <a href="#" class="btn btn-outline-primary btn-sm ms-2">
+        <a href="refresh" class="btn btn-outline-primary btn-sm ms-2">
           <i class="fas fa-sync-alt me-1"></i> Refresh
         </a>
         </div>
@@ -386,7 +386,7 @@
     $('#pendaftar-table').DataTable({
       language: {
       search: "Cari:",
-      lengthMenu: "Tampilkan _MENU_ entri",
+      lengthMenu: "Tampilkan _MENU_ ",
       info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
       infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
       infoFiltered: "(disaring dari _MAX_ total entri)",
@@ -400,6 +400,19 @@
       }
     });
     });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const refreshButton = document.querySelector(".btn-outline-primary");
+
+    if (refreshButton) {
+      refreshButton.addEventListener("click", function (event) {
+      event.preventDefault(); // Mencegah aksi default dari <a href="#">
+      location.reload(); // Me-refresh halaman
+      });
+    }
+    });
+
   </script>
   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
     @csrf

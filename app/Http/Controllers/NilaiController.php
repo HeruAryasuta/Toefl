@@ -25,7 +25,7 @@ class NilaiController extends Controller
             ->get();
         // dd($pendaftaran);
 
-        // Kirim kedua variabel ke view
+
         return view('backend.dashboard-admin.nila-peserta', compact('riwayatNilai', 'pendaftaran'));
     }
 
@@ -34,35 +34,39 @@ class NilaiController extends Controller
     {
         $validated = $request->validate([
             'id_pendaftaran' => 'required|exists:pendaftaran,id_pendaftaran',
-            'tanggal_test' => 'required|date',
-            'listening' => 'required|numeric|min:0|max:100',
-            'structure' => 'required|numeric|min:0|max:100',
-            'reading' => 'required|numeric|min:0|max:100',
+            'listening' => 'required|numeric|min:31|max:68',
+            'structure' => 'required|numeric|min:31|max:68',
+            'reading' => 'required|numeric|min:31|max:67',
         ]);
 
         try {
             DB::beginTransaction();
 
-            $totalNilai = ($validated['listening'] + $validated['structure'] + $validated['reading']) / 3;
-            $pendaftaran = Pendaftar::findOrFail($validated['id_pendaftaran']);
-            $jadwal = JadwalTest::findOrFail($pendaftaran->id_jadwal);
+            $pendaftaran = Pendaftar::with('jadwal')->findOrFail($validated['id_pendaftaran']);
+
+            // Cek apakah jadwal ditemukan
+            if (!$pendaftaran->jadwal) {
+                return redirect()->back()->with('error', 'Jadwal tidak ditemukan.');
+            }
+
+            $totalNilai = round(($validated['listening'] + $validated['structure'] + $validated['reading']) * 10 / 3);
+            // dd($totalNilai);
 
             Nilai::create([
                 'id_pendaftaran' => $validated['id_pendaftaran'],
-                'tanggal_test' => $jadwal->tanggal_test,
+                'tanggal_test' => $pendaftaran->jadwal->tanggal_test,
                 'listening' => $validated['listening'],
                 'structure' => $validated['structure'],
                 'reading' => $validated['reading'],
                 'total_nilai' => round($totalNilai, 2)
             ]);
+
             DB::commit();
             return redirect()->back()->with('success', 'Nilai TOEFL berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menyimpan nilai TOEFL. Silakan coba lagi.');
         }
-
-
     }
 
 
@@ -82,8 +86,8 @@ class NilaiController extends Controller
             $pendaftaran = Pendaftar::where('id_pendaftaran', $validated['id_pendaftaran'])->firstOrFail();
             $jadwal = JadwalTest::where('id_jadwal', $pendaftaran->id_jadwal)->firstOrFail();
 
-            // Calculate total score
-            $totalNilai = ($validated['listening'] + $validated['structure'] + $validated['reading']) / 3;
+
+            $totalNilai = round(($validated['listening'] + $validated['structure'] + $validated['reading']) * 10 / 3);
 
             $nilai->update([
                 'id_pendaftaran' => $validated['id_pendaftaran'],
@@ -152,15 +156,6 @@ class NilaiController extends Controller
             ->setPaper('A4', 'landscape');
 
         return $pdf->stream("Sertifikat_TOEFL_$tanggal_test.pdf");
-    }
-
-    public function getTestDates()
-    {
-        $dates = Nilai::select('id_jadwal', 'tanggal_test')
-            ->distinct()
-            ->orderBy('tanggal_test', 'desc')
-            ->get();
-        return response()->json($dates);
     }
 
     public function getTanggalTest($id_pendaftaran)

@@ -36,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/data-peserta', [UserController::class, 'index'])->name('data-peserta');
 Route::get('/nilai-peserta', [NilaiController::class, 'index'])->name('nilai-peserta');
 Route::post('/nilai-peserta', [NilaiController::class, 'store'])->name('nilai-peserta.store');
+Route::delete('/nilai-peserta', [NilaiController::class, 'destroy'])->name('nilai-peserta.destroy');
+Route::put('/nilai-peserta', [NilaiController::class, 'update'])->name('nilai-peserta.update');
 Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran');
 Route::get('/penjadwalan', [JadwalTestController::class, 'index'])->name('penjadwalan');
 Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
@@ -50,7 +52,6 @@ Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])-
 
 Route::post('/print-score', [NilaiController::class, 'printScore'])->name('print.score');
 Route::post('/print-certificate', [NilaiController::class, 'printCertificate'])->name('print.certificate');
-Route::get('/get-test-dates', [NilaiController::class, 'getTestDates']);
 Route::get('/get-tanggal-test/{id_pendaftaran}', [NilaiController::class, 'getTanggalTest']);
 
 
