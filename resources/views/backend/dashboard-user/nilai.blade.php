@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-    <h3 style="text-align: center;">Daftar Nilai TOEFL - {{ $tanggal_test }}</h3>
+    <h3 style="text-align: center;">Daftar Nilai TOEFL - {{ \Carbon\Carbon::parse($tanggal_test)->format('d M Y')}}</h3>
     <table>
         <thead>
             <tr>

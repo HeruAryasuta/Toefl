@@ -90,23 +90,23 @@
             <tbody>
               @foreach ($transaksi as $trx)
               <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $trx->user->name }}</td>
-                <td>{{ \Carbon\Carbon::parse($trx->tanggal)->format('d-m-Y') }}</td>
-                <td>{{ ucfirst($transaksis->payment_type) }}</td>
-                <td>Rp {{ number_format($transaksis->amount, 0, ',', '.') }}</td>
-                <td>
-                  @if($trx->status == 'Lunas')
-                    <span class="badge badge-success">Lunas</span>
-                  @elseif($trx->status == 'Menunggu Konfirmasi')
-                    <span class="badge badge-warning">Menunggu Konfirmasi</span>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $trx['pendaftaran']['user']['name'] ?? 'Nama tidak tersedia' }}</td>
+              <td>{{ $trx->order_id }}</td>
+              <td>{{ ucfirst($trx->payment_type) }}</td>
+              <td>Rp {{ number_format($trx->amount, 0, ',', '.') }}</td>
+              <td>
+                  @if($trx->transaction_status == 'settlement' || $trx->transaction_status == 'capture')
+                      <span class="badge bg-success">Lunas</span>
+                  @elseif($trx->transaction_status == 'pending')
+                      <span class="badge bg-warning">Menunggu Konfirmasi</span>
                   @else
-                    <span class="badge badge-danger">Belum Lunas</span>
+                      <span class="badge bg-danger">Belum Lunas</span>
                   @endif
-                </td>
-                <td>
+              </td>
+              <td>
                   <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-primary btn-sm">Detail</a>
-                </td>
+              </td>
               </tr>
               @endforeach
             </tbody>

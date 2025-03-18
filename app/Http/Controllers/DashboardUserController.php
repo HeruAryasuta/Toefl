@@ -20,7 +20,6 @@ class DashboardUserController extends Controller
         })
         ->get();
         $pendaftaranCount = $pendaftaran->count();
-        $jadwalTerbaru = JadwalTest::where('tanggal_test', '>=', now())->get();
         $jadwalCount = JadwalTest::where('tanggal_test', '>=', now())->count();
         $maxJadwal = 10;
         $progress = ($jadwalCount / $maxJadwal) * 100;
@@ -30,7 +29,7 @@ class DashboardUserController extends Controller
         })->max('total_nilai') ?? 0;
 
 
-        return view('backend.dashboard-user.dashboard-user', compact('pendaftaran', 'jadwalCount', 'progress', 'pendaftaranCount', 'jadwalTerbaru', 'skorTertinggi'));
+        return view('backend.dashboard-user.dashboard-user', compact('pendaftaran', 'jadwalCount', 'progress', 'pendaftaranCount', 'skorTertinggi'));
     }
 
     public function cetakKartu($id)

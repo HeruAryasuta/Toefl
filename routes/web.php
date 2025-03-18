@@ -11,6 +11,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PendaftaranUserController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NilaiPesertaController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman utama (landing page)
@@ -50,10 +51,10 @@ Route::post('/pendaftaran', [PendaftaranUserController::class, 'store'])->name('
 Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])->name('cetak.kartu');
 
 
-Route::post('/print-score', [NilaiController::class, 'printScore'])->name('print.score');
-Route::post('/print-certificate', [NilaiController::class, 'printCertificate'])->name('print.certificate');
+Route::post('/print-score', [JadwalUserController::class, 'printScore'])->name('print.score');
 Route::get('/get-tanggal-test/{id_pendaftaran}', [NilaiController::class, 'getTanggalTest']);
-
+Route::get('/user/tanggal-test', [JadwalUserController::class, 'tanggalTestUser'])->name('user.tanggal-test');
+Route::post('/generate-certificate', [JadwalUserController::class, 'generateCertificate'])->name('generate.certificate');
 
 
 

@@ -18,8 +18,8 @@ class TransaksiController extends Controller
     {
         $transaksi = Transaksi::findOrFail($id);
 
-        $status = Transaksi::status($transaksi->order_id);
+        $status = $transaksi->transaction_status;
 
-        return view('backend.transaksi.show', compact('transaksi', 'status'));
+        return view('backend.dashboard-admin.transaksi-show', compact('transaksi', 'status'));
     }
 }

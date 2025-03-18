@@ -283,55 +283,56 @@
           </div>
         </div>
         </div>
-
         <!-- Upcoming Test -->
         <div class="col-md-6 mb-4">
-        @if ($jadwalTerbaru->isNotEmpty())
-      <h3 class="section-title">Tes Mendatang</h3>
-      @foreach($jadwalTerbaru as $jadwal)
-      <div class="card upcoming-test-card shadow-sm mb-4">
-      <div class="card-body p-4">
-      <div class="d-flex align-items-center mb-4">
-      <div class="card-icon me-3"
-      style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
-      <i class="fas fa-calendar-day"></i>
-      </div>
-      <div>
-      <h4 class="mb-0">TOEFL Prediction Test</h4>
-      <span class="text-muted">
-        {{ \Carbon\Carbon::parse($jadwal->tanggal_test)->locale('id')->isoFormat('dddd, D MMMM Y') }}
-      </span>
-      </div>
-      </div>
+            @if ($pendaftaran->isNotEmpty())
+                <h3 class="section-title">Tes Mendatang</h3>
+                @foreach($pendaftaran as $daftar)
+                    @if ($daftar->jadwal)  {{-- Pastikan ada jadwal terkait --}}
+                        <div class="card upcoming-test-card shadow-sm mb-4">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="card-icon me-3"
+                                        style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-0">{{ $daftar->jadwal->nama_test ?? 'TOEFL Prediction Test' }}</h4>
+                                        <span class="text-muted">
+                                            {{ \Carbon\Carbon::parse($daftar->jadwal->tanggal_test)->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                                        </span>
+                                    </div>
+                                </div>
 
-      <div class="mb-3">
-      <div class="d-flex align-items-center mb-2">
-      <i class="fas fa-clock text-muted me-2"></i>
-      <span>{{ $jadwal->jam_test ?? '-' }} - Selesai WIB</span>
-      </div>
-      <div class="d-flex align-items-center mb-2">
-      <i class="fas fa-map-marker-alt text-muted me-2"></i>
-      <span>{{ $jadwal->lokasi ?? 'Lokasi belum tersedia' }}</span>
-      </div>
-      <div class="d-flex align-items-center">
-      <i class="fas fa-info-circle text-muted me-2"></i>
-      <span>{{ $jadwal->pendaftaran->status_pendaftaran }}</span>
-      </div>
-      </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-clock text-muted me-2"></i>
+                                        <span>{{ $daftar->jadwal->jam_test ?? '-' }} - Selesai WIB</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                        <span>{{ $daftar->jadwal->lokasi ?? 'Lokasi belum tersedia' }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="fw-bold">{{ $daftar->status_pendaftaran }}</span>
+                                    </div>
+                                </div>
 
-      <div class="mt-4">
-      <a href="#" class="btn btn-outline-secondary">
-      <i class="fas fa-info-circle me-1"></i> Detail
-      </a>
-      </div>
-      </div>
-      </div>
-    @endforeach
-    @else
-    <div class="alert alert-warning">
-      Anda belum mendaftar untuk tes TOEFL.
-    </div>
-  @endif
+                                <div class="mt-4">
+                                    <a href="#" class="btn btn-outline-secondary">
+                                        <i class="fas fa-info-circle me-1"></i> Detail
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @else
+                <div class="alert alert-warning">
+                    Anda belum mendaftar untuk tes TOEFL.
+                </div>
+            @endif
+        </div>
         </div>
       </div>
       </div>

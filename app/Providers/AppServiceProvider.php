@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Midtrans\Config;
+use App\Observers\TransaksiObserver;
+use App\Models\Transaksi;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Transaksi::observe(TransaksiObserver::class);
         Config::$serverKey = config('midtrans.midtrans.serverKey'); 
         Config::$isProduction = config('midtrans.midtrans.isProduction'); 
         Config::$isSanitized = config('midtrans.midtrans.isSanitized'); 

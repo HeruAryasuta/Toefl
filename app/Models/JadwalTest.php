@@ -19,7 +19,7 @@ class JadwalTest extends Model
     ];
 
     public function pendaftaran()
-{
-    return $this->hasMany(Pendaftar::class, 'id_jadwal', 'id_jadwal');
-}
+    {
+        return $this->hasMany(Pendaftar::class, 'id_jadwal', 'id_jadwal');
+    }
 }

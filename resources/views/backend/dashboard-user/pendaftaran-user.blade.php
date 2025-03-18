@@ -1,92 +1,12 @@
-<!doctype html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Jadwal Ujian</title>
+@section('tittle', 'Pendaftaran Ujian')
 
-    <!-- Existing CSS -->
-    <link href="{{ asset('assets/css-dashboard/tabler.min.css') }}" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('content')
 
-    <!-- Additional styling -->
-    <style>
-        .card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: none;
-            transition: all 0.3s ease;
-        }
+<link rel="stylesheet" href="{{ asset('css/user.css') }}">
 
-        .card-header {
-            background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%);
-            color: white;
-            border-bottom: none;
-            padding: 1.5rem;
-        }
-
-        .table th {
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-            color: #495057;
-            font-weight: 600;
-        }
-
-        .table td {
-            vertical-align: middle;
-        }
-
-        .table tr:hover {
-            background-color: #f8f9fa;
-            transition: all 0.2s ease;
-        }
-
-        .btn-daftar {
-            background-color: #0d6efd;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-daftar:hover {
-            background-color: #0b5ed7;
-            transform: translateY(-1px);
-        }
-
-        .btn-kembali {
-            border: 2px solid #0dcaf0;
-            color: #0dcaf0;
-            background: transparent;
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-kembali:hover {
-            background-color: #0dcaf0;
-            color: white;
-        }
-
-        .badge-kuota-habis {
-            background-color: #dc3545;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: 500;
-        }
-
-        .card-footer {
-            background-color: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-            padding: 1rem;
-        }
-    </style>
-</head>
-
-<body class="bg-light">
+<body>
     <div class="page">
         @include('backend.sidebar')
 
@@ -95,13 +15,14 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="section-title m-0">Daftar Jadwal Ujian</h2>
                     <a href="{{ route('jadwal-user') }}" class="btn btn-kembali">
-                        <i class="fas fa-arrow-left me-2"></i>Kembali
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Kembali</span>
                     </a>
                 </div>
 
                 <div class="card">
                     <div class="card-header text-center">
-                        <h5 class="card-title mb-0">Jadwal Ujian</h5>
+                        <h5 class="card-title">Jadwal Ujian Tersedia</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -120,11 +41,30 @@
                                     @forelse ($jadwalTests as $jadwalItem)
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_test)->translatedFormat('j F Y') }}
+                                            <td>
+                                                <div class="date-badge">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <span>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_test)->translatedFormat('j F Y') }}</span>
+                                                </div>
                                             </td>
-                                            <td>{{ $jadwalItem->jam_test }}</td>
-                                            <td>{{ $jadwalItem->lokasi }}</td>
-                                            <td class="text-center">{{ $jadwalItem->kuota }}</td>
+                                            <td>
+                                                <div class="time-badge">
+                                                    <i class="fas fa-clock"></i>
+                                                    <span>{{ \Carbon\Carbon::createFromFormat('H:i:s',$jadwalItem->jam_test)->format('h:i') }}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="location-badge">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>{{ $jadwalItem->lokasi }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="quota-badge">
+                                                    <i class="fas fa-users"></i>
+                                                    {{ $jadwalItem->kuota }} orang
+                                                </span>
+                                            </td>
                                             <td class="text-center">
                                                 @if($jadwalItem->kuota > 0)
                                                     <form action="{{ route('pendaftaran.store') }}" method="POST">
@@ -133,17 +73,26 @@
                                                             value="{{ $jadwalItem->id_jadwal }}">
                                                         <input type="hidden" name="tanggal_test"
                                                             value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
-                                                        <button type="submit" class="btn btn-daftar">Daftar</button>
+                                                        <button type="submit" class="btn btn-daftar" id="pay-button">
+                                                            <i class="fas fa-edit"></i>
+                                                            Daftar
+                                                        </button>
                                                     </form>
                                                 @else
-                                                    <span class="badge badge-kuota-habis">Kuota Habis</span>
+                                                    <span class="badge-kuota-habis">
+                                                        <i class="fas fa-times-circle"></i>
+                                                        Kuota Habis
+                                                    </span>
                                                 @endif
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center py-4 text-muted">
-                                                Tidak ada jadwal ujian tersedia
+                                            <td colspan="6">
+                                                <div class="empty-state">
+                                                    <i class="fas fa-calendar-times"></i>
+                                                    <p>Tidak ada jadwal ujian tersedia saat ini</p>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforelse
@@ -152,7 +101,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <div>Total Baris: {{ $jadwalTests->count() }}</div>
+                        <div class="text-muted">Total Jadwal: {{ $jadwalTests->count() }}</div>
                         <div>{{ $jadwalTests->links() }}</div>
                     </div>
                 </div>
@@ -162,6 +111,4 @@
 
     <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</body>
-
-</html>
+@endsection

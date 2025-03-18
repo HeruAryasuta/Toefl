@@ -11,7 +11,7 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksi';
-    protected $primaryKey = 'id_transaksi';
+    protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
     protected $casts = [
