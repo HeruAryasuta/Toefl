@@ -67,17 +67,10 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if($jadwalItem->kuota > 0)
-                                                        <form action="{{ route('pendaftaran.store') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="id_jadwal"
-                                                                value="{{ $jadwalItem->id_jadwal }}">
-                                                            <input type="hidden" name="tanggal_test"
-                                                                value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
-                                                            <button type="submit" class="btn btn-daftar" id="pay-button">
-                                                                <i class="fas fa-edit"></i>
-                                                                Daftar
-                                                            </button>
-                                                        </form>
+                                                        <button type="button" class="btn btn-daftar pay-button" data-id="{{ $jadwalItem->id_jadwal }}">
+                                                            <i class="fas fa-edit"></i>
+                                                            Daftar
+                                                        </button>
                                                     @else
                                                         <span class="badge-kuota-habis">
                                                             <i class="fas fa-times-circle"></i>
@@ -111,36 +104,38 @@
 
         <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key={{ env('MIDTRANS_CLIENT_KEY') }}></script>
-        <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-            data-client-key="YOUR_CLIENT_KEY"></script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                let payButton = document.getElementById("pay-button");
+                let buttons = document.querySelectorAll(".pay-button");
 
-                if (payButton) {
-                    payButton.style.display = "block"; 
+                buttons.forEach(button => {
+                    button.addEventListener("click", function () {
+                        let idJadwal = this.getAttribute("data-id");
 
-                    payButton.addEventListener("click", function () {
-                        let snapToken = "336ed648-7460-49af-969d-06cd79882144"; 
+                        fetch(`http://toefl.test/api/get-midtrans-token/${idJadwal}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === "success") {
+                                    let paymentUrl = data.data.payment_url;
+                                    
+                                    // Buka payment URL di jendela baru
+                                    window.open(paymentUrl, '_blank'); 
 
-                        snap.pay(snapToken, {
-                            onSuccess: function (result) {
-                                console.log('Payment successful:', result);
-                                alert("Pembayaran berhasil!");
-                            },
-                            onPending: function (result) {
-                                console.log('Payment pending:', result);
-                                alert("Pembayaran tertunda, silakan cek statusnya nanti.");
-                            },
-                            onError: function (result) {
-                                console.log('Payment error:', result);
-                                alert("Terjadi kesalahan dalam pembayaran!");
-                            }
-                        });
+                                    // Redirect pengguna ke halaman dashboard
+                                    window.location.href = '/jadwal-user'; 
+                                } else {
+                                    alert("Gagal mendapatkan URL pembayaran. Silakan coba lagi.");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error fetching payment URL:", error);
+                                alert("Terjadi kesalahan dalam memproses pembayaran.");
+                            });
                     });
-                }
+                });
             });
         </script>
+
+
 @endsection
