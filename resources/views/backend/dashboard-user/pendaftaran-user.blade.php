@@ -112,35 +112,23 @@
         <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key={{ env('MIDTRANS_CLIENT_KEY') }}></script>
-        <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-            data-client-key="YOUR_CLIENT_KEY"></script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                let payButton = document.getElementById("pay-button");
-
-                if (payButton) {
-                    payButton.style.display = "block"; 
-
-                    payButton.addEventListener("click", function () {
-                        let snapToken = "336ed648-7460-49af-969d-06cd79882144"; 
-
-                        snap.pay(snapToken, {
-                            onSuccess: function (result) {
-                                console.log('Payment successful:', result);
-                                alert("Pembayaran berhasil!");
-                            },
-                            onPending: function (result) {
-                                console.log('Payment pending:', result);
-                                alert("Pembayaran tertunda, silakan cek statusnya nanti.");
-                            },
-                            onError: function (result) {
-                                console.log('Payment error:', result);
-                                alert("Terjadi kesalahan dalam pembayaran!");
-                            }
-                        });
-                    });
-                }
-            });
+        <script type="text/javascript">
+            document.getElementById('pay-button').onclick = function () {
+                // SnapToken acquired from previous step
+                snap.pay('{{$snapToken}}', {
+                    // Optional
+                    onSuccess: function (result) {
+                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    // Optional
+                    onPending: function (result) {
+                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    // Optional
+                    onError: function (result) {
+                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    }
+                });
+            };
         </script>
 @endsection
