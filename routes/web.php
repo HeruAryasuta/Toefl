@@ -47,7 +47,7 @@ Route::get('/jadwal-user', [JadwalUserController::class, 'index'])->name('jadwal
 Route::post('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'index'])->name('jadwal-user.pendaftaran');
-Route::post('/pendaftaran', [PendaftaranUserController::class, 'store'])->name('pendaftaran.store');
+Route::post('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'store'])->name('pendaftaran.store');
 Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])->name('cetak.kartu');
 
 

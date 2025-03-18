@@ -16,6 +16,9 @@ class PendaftaranUserController extends Controller
     public function index()
     {
         $jadwalTests = JadwalTest::where('tanggal_test', '>=', now())->paginate(10);
+        if ($jadwalTests->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada jadwal yang tersedia.');
+        }
         return view('backend.dashboard-user.pendaftaran-user', compact('jadwalTests'));
     }
 
@@ -25,13 +28,13 @@ class PendaftaranUserController extends Controller
             'id_jadwal' => 'required|exists:jadwal_test,id_jadwal'
         ]);
 
-        $jadwal = JadwalTest::findOrFail($request->id_jadwal);
+        $jadwalTests = JadwalTest::findOrFail($request->id_jadwal);
 
-        if ($jadwal->kuota <= 0) {
+        if ($jadwalTests->kuota <= 0) {
             return response()->json(['error' => 'Kuota sudah penuh!'], 400);
         }
 
-        $jadwal->decrement('kuota');
+        $jadwalTests->decrement('kuota');
 
         // Simpan Pendaftaran
         $pendaftaran = Pendaftar::create([
@@ -42,9 +45,9 @@ class PendaftaranUserController extends Controller
         ]);
 
         $user = Auth::user();
-        $jadwal = $pendaftaran->jadwal_test;
+        $jadwalTests = $pendaftaran->jadwal_test;
         $orderId = 'ORDER-' . uniqid();
-        $amount = 500000; // Harga pendaftaran
+        $amount = 50000; // Harga pendaftaran
         $transactionDetails = [
             'order_id' => $orderId,
             'gross_amount' => $amount,

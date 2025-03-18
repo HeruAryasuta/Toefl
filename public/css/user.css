@@ -250,3 +250,9 @@ body {
         align-items: flex-start !important;
     }
 }
+
+#pay-button {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
