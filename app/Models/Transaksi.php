@@ -13,7 +13,7 @@ class Transaksi extends Model
     protected $table = 'transaksi';
     protected $primaryKey = 'id_transaksi';
     public $incrementing = true;
-    protected $keyType = 'bigint';
+    protected $keyType = 'int';
     protected $casts = [
         'id_pendaftaran' => 'integer', // Benar
         'amount' => 'decimal:2', // Pastikan nilai desimal

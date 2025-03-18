@@ -31,21 +31,14 @@ class PendaftaranUserController extends Controller
             return response()->json(['error' => 'Kuota sudah penuh!'], 400);
         }
 
-        $pendaftaran = Pendaftar::create([
-            'id_users' => Auth::id(),
-            'id_jadwal' => $request->id_jadwal,
-            'status_pendaftaran' => 'pending',
-            'status_pembayaran' => 'pending',
-        ]);
-
         $jadwal->decrement('kuota');
 
         // Simpan Pendaftaran
         $pendaftaran = Pendaftar::create([
             'id_users' => Auth::id(),
             'id_jadwal' => $request->id_jadwal,
-            'status_pendaftaran' => 'pending',
-            'status_pembayaran' => 'pending',
+            'status_pendaftaran' => 'Pending',
+            'status_pembayaran' => 'Belum Lunas',
         ]);
 
         $user = Auth::user();
@@ -71,7 +64,7 @@ class PendaftaranUserController extends Controller
 
         // Simpan transaksi
         $transaction = Transaksi::create([
-            'id_pendaftaran' => $pendaftaran->id,
+            'id_pendaftaran' => $pendaftaran->id_pendaftaran,
             'order_id' => $orderId,
             'amount' => $amount,
             'payment_type' => 'midtrans',
@@ -79,12 +72,13 @@ class PendaftaranUserController extends Controller
             'transaction_time' => now(),
         ]);
 
-        $transaction->snap_token = $snapToken;
+        // $transaction->snap_token = $snapToken;
         
-        $transaction->save();
+        // $transaction->save();
 
         // Kirim Email Konfirmasi
-        Mail::to($user->email)->send(new SendEmail($user, $jadwal));
+        // Ini kirim email sebelum pembayaran
+        // Mail::to($user->email)->send(new SendEmail($user, $jadwal));
 
         return response()->json(['snap_token' => $snapToken]);
     }

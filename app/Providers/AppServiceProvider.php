@@ -26,8 +26,11 @@ class AppServiceProvider extends ServiceProvider
         Config::$is3ds = config('midtrans.midtrans.is3ds');
         Config::$curlOptions = [
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
-        ];        
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Accept: application/json',
+            ],
+        ];   
     }
     
 }
