@@ -67,7 +67,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if($jadwalItem->kuota > 0)
-                                                        <button type="button" class="btn btn-daftar pay-button" data-id="{{ $jadwalItem->id_jadwal }}">
+                                                        <button type="button" class="btn btn-daftar pay-button" id-user= "{{ $id_user }}"  data-id="{{ $jadwalItem->id_jadwal }}">
                                                             <i class="fas fa-edit"></i>
                                                             Daftar
                                                         </button>
@@ -112,8 +112,9 @@
                 buttons.forEach(button => {
                     button.addEventListener("click", function () {
                         let idJadwal = this.getAttribute("data-id");
+                        let idUser = this.getAttribute("id-user");
 
-                        fetch(`http://toefl.test/api/get-midtrans-token/${idJadwal}`)
+                        fetch(`http://toefl.test/api/get-midtrans-token/${idJadwal}/${idUser}`)
                             .then(response => response.json())
                             .then(data => {
                                 if (data.status === "success") {

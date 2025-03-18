@@ -16,10 +16,13 @@ class PendaftaranUserController extends Controller
     public function index()
     {
         $jadwalTests = JadwalTest::where('tanggal_test', '>=', now())->paginate(10);
+        $id_user = Auth::id();
+
+
         if ($jadwalTests->isEmpty()) {
             return redirect()->back()->with('error', 'Tidak ada jadwal yang tersedia.');
         }
-        return view('backend.dashboard-user.pendaftaran-user', compact('jadwalTests'));
+        return view('backend.dashboard-user.pendaftaran-user', compact('jadwalTests', 'id_user'));
     }
 
     public function store(Request $request)

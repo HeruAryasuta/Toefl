@@ -128,7 +128,7 @@ Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi
 Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
 
 Route::prefix('api')->group(function () {
-    Route::get('/get-midtrans-token/{jadwalId}', [MidtransController::class, 'getMidtransToken']);
+    Route::get('/get-midtrans-token/{jadwalId}/{pesertaId}', [MidtransController::class, 'getMidtransToken']);
 });
 
 
