@@ -30,18 +30,6 @@
                             <td>{{ ucfirst($transaksi->payment_type) }}</td>
                         </tr>
                         <tr>
-                            <th>Status Transaksi</th>
-                            <td>
-                                @if($transaksi->transaction_status == 'settlement' || $transaksi->transaction_status == 'capture')
-                                    <span class="badge bg-success">Lunas</span>
-                                @elseif($transaksi->transaction_status == 'pending')
-                                    <span class="badge bg-warning text-dark">Menunggu Konfirmasi</span>
-                                @else
-                                    <span class="badge bg-danger">Belum Lunas</span>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
                             <th>Waktu Transaksi</th>
                             <td>{{ \Carbon\Carbon::parse($transaksi->transaction_time)->format('d M Y H:i') }}</td>
                         </tr>
