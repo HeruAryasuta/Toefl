@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\MidtransController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardUserController;
@@ -50,9 +49,6 @@ Route::get('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->
 Route::get('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'index'])->name('jadwal-user.pendaftaran');
 Route::post('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'store'])->name('pendaftaran.store');
 Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])->name('cetak.kartu');
-
-Route::get('/get-midtrans-token/{jadwalId}', [PendaftaranController::class, 'getMidtransToken']);
-
 
 
 Route::post('/print-score', [JadwalUserController::class, 'printScore'])->name('print.score');
@@ -126,10 +122,6 @@ Route::get('pendaftaran/export', [PendaftaranController::class, 'exportPendaftar
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
-
-Route::prefix('api')->group(function () {
-    Route::get('/get-midtrans-token/{jadwalId}/{pesertaId}', [MidtransController::class, 'getMidtransToken']);
-});
 
 
 // Rute untuk otentikasi (login/register)

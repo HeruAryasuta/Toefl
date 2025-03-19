@@ -23,7 +23,6 @@ class Pendaftar extends Model
         'id_jadwal',
         'status_pendaftaran',
         'status_pembayaran',
-        'payment_url',
     ];
 
     public function user()

@@ -67,10 +67,17 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if($jadwalItem->kuota > 0)
-                                                        <button type="button" class="btn btn-daftar pay-button" id-user= "{{ $id_user }}"  data-id="{{ $jadwalItem->id_jadwal }}">
-                                                            <i class="fas fa-edit"></i>
-                                                            Daftar
-                                                        </button>
+                                                        <form action="{{ route('pendaftaran.store') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="id_jadwal"
+                                                                value="{{ $jadwalItem->id_jadwal }}">
+                                                            <input type="hidden" name="tanggal_test"
+                                                                value="{{ $jadwalItem->tanggal_test ? \Carbon\Carbon::parse($jadwalItem->tanggal_test)->format('Y-m-d') : '' }}">
+                                                            <button type="submit" class="btn btn-daftar" id="pay-button">
+                                                                <i class="fas fa-edit"></i>
+                                                                Daftar
+                                                            </button>
+                                                        </form>
                                                     @else
                                                         <span class="badge-kuota-habis">
                                                             <i class="fas fa-times-circle"></i>
@@ -104,39 +111,23 @@
 
         <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                let buttons = document.querySelectorAll(".pay-button");
-
-                buttons.forEach(button => {
-                    button.addEventListener("click", function () {
-                        let idJadwal = this.getAttribute("data-id");
-                        let idUser = this.getAttribute("id-user");
-
-                        fetch(`http://toefl.test/api/get-midtrans-token/${idJadwal}/${idUser}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === "success") {
-                                    let paymentUrl = data.data.payment_url;
-                                    
-                                    // Buka payment URL di jendela baru
-                                    window.open(paymentUrl, '_blank'); 
-
-                                    // Redirect pengguna ke halaman dashboard
-                                    window.location.href = '/jadwal-user'; 
-                                } else {
-                                    alert("Gagal mendapatkan URL pembayaran. Silakan coba lagi.");
-                                }
-                            })
-                            .catch(error => {
-                                console.error("Error fetching payment URL:", error);
-                                alert("Terjadi kesalahan dalam memproses pembayaran.");
-                            });
-                    });
-                });
-            });
-         </script>
-
-
+        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key={{ env('MIDTRANS_CLIENT_KEY') }}></script>
+        <script type="text/javascript">
+                @if(isset($snapToken))
+                        snap.pay('{{ $snapToken }}', {
+                            // Optional
+                            onSuccess: function (result) {
+                                console.log(result);
+                            },
+                            // Optional
+                            onPending: function (result) {
+                    /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                            },
+                            // Optional
+                            onError: function (result) {
+                    /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                            }
+                        });
+                @endif
+        </script>
 @endsection

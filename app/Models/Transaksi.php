@@ -28,7 +28,6 @@ class Transaksi extends Model
         'payment_type',
         'transaction_status',
         'transaction_time',
-        'payment_url',
     ];
 
     // Relasi ke tabel pendaftaran
