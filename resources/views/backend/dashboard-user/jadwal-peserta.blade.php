@@ -369,8 +369,6 @@
                                                     </span>
                                                 @else
                                                     <span class="badge bg-secondary">{{ $pendaftar->status_pendaftaran }}</span>
-                                                    <a href="{{$pendaftar->payment_url}}" target="_blank"><span class="badge bg-primary">Bayar Sekarang</span></a>
-
                                                 @endif
                                             </td>
                                         </tr>
