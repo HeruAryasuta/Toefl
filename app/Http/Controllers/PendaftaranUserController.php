@@ -82,7 +82,7 @@ class PendaftaranUserController extends Controller
         // Kirim Email Konfirmasi
         // Ini kirim email sebelum pembayaran
         // Mail::to($user->email)->send(new SendEmail($user, $jadwal));
-
-        return response()->json(['snap_token' => $snapToken]);
+        $jadwalTests = JadwalTest::where('tanggal_test', '>=', now())->paginate(10);
+        return view('backend.dashboard-user.pendaftaran-user', compact('snapToken', 'jadwalTests'));
     }
 }

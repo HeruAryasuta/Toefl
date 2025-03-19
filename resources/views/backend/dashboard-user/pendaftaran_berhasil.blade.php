@@ -13,7 +13,6 @@
         <li><strong>Tanggal Tes:</strong> {{ $jadwal->tanggal }}</li>
         <li><strong>Lokasi:</strong> {{ $jadwal->lokasi }}</li>
     </ul>
-    <p>Silakan lakukan pembayaran melalui Midtrans.</p>
     <p>Terima kasih!</p>
 </body>
 </html>

@@ -80,10 +80,10 @@
               <tr>
                 <th>No</th>
                 <th>Nama Pengguna</th>
+                <th>Id Transaksi</th>
                 <th>Tanggal Transaksi</th>
                 <th>Tipe Pembayaran</th>
                 <th>Jumlah</th>
-                <th>Status</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -93,17 +93,9 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ $trx['pendaftaran']['user']['name'] ?? 'Nama tidak tersedia' }}</td>
               <td>{{ $trx->order_id }}</td>
+              <td>{{ \Carbon\Carbon::parse($trx->transaction_time)->locale('id')->isoFormat('dddd, D MMMM Y') }}</td>
               <td>{{ ucfirst($trx->payment_type) }}</td>
               <td>Rp {{ number_format($trx->amount, 0, ',', '.') }}</td>
-              <td>
-                  @if($trx->transaction_status == 'settlement' || $trx->transaction_status == 'capture')
-                      <span class="badge bg-success">Lunas</span>
-                  @elseif($trx->transaction_status == 'pending')
-                      <span class="badge bg-warning">Menunggu Konfirmasi</span>
-                  @else
-                      <span class="badge bg-danger">Belum Lunas</span>
-                  @endif
-              </td>
               <td>
                   <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-primary btn-sm">Detail</a>
               </td>
