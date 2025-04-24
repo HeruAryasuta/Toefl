@@ -67,7 +67,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if($jadwalItem->kuota > 0)
-                                                        <button type="button" class="btn btn-daftar pay-button" id-user= "{{ $id_user }}"  data-id="{{ $jadwalItem->id_jadwal }}">
+                                                        <button type="button" class="btn btn-daftar pay-button"
+                                                            id-user="{{ $id_user }}" data-id="{{ $jadwalItem->id_jadwal }}">
                                                             <i class="fas fa-edit"></i>
                                                             Daftar
                                                         </button>
@@ -114,17 +115,24 @@
                         let idJadwal = this.getAttribute("data-id");
                         let idUser = this.getAttribute("id-user");
 
-                        fetch(`http://toefl.test/api/get-midtrans-token/${idJadwal}/${idUser}`)
+                        fetch(`http://127.0.0.1:8000/api/get-midtrans-token/${idJadwal}/${idUser}`)
                             .then(response => response.json())
                             .then(data => {
                                 if (data.status === "success") {
                                     let paymentUrl = data.data.payment_url;
-                                    
-                                    // Buka payment URL di jendela baru
-                                    window.open(paymentUrl, '_blank'); 
 
-                                    // Redirect pengguna ke halaman dashboard
-                                    window.location.href = '/jadwal-user'; 
+                                    // Buka payment URL di jendela baru
+                                    const paymentWindow = window.open(paymentUrl, '_blank');
+
+                                    // Polling untuk mengecek apakah window sudah ditutup
+                                    const paymentCheckInterval = setInterval(() => {
+                                        if (paymentWindow.closed) {
+                                            clearInterval(paymentCheckInterval);
+
+                                            // Setelah ditutup, redirect pengguna ke halaman jadwal
+                                            window.location.href = '/jadwal-user';
+                                        }
+                                    }, 1000);
                                 } else {
                                     alert("Gagal mendapatkan URL pembayaran. Silakan coba lagi.");
                                 }
@@ -136,7 +144,5 @@
                     });
                 });
             });
-         </script>
-
-
+        </script>
 @endsection

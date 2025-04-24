@@ -60,7 +60,7 @@
         <div class="col">
         <h2 class="page-title">Data Transaksi</h2>
         <div class="text-muted mt-1">
-          <i class="far fa-calendar-alt me-1"></i> {{ now()->format('l, d F Y') }}
+          <i class="far fa-calendar-alt me-1"></i> {{ now()->translatedFormat('l, d F Y') }}
         </div>
         </div>
       </div>

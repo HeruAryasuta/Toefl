@@ -133,7 +133,31 @@
             <div class="fw-bold">{{ Auth::user()->prodi }}</div>
             </div>
           </div>
+
+          <div class="d-flex align-items-center mb-3">
+            <div class="info-icon">
+            <i class="fas fa-book"></i>
+            </div>
+            <div>
+            <div class="text-muted small">Tempat Lahir</div>
+            <div class="fw-bold">{{ Auth::user()->tempat_lahir }}</div>
+            </div>
           </div>
+
+          <div class="d-flex align-items-center mb-3">
+            <div class="info-icon">
+            <i class="fas fa-book"></i>
+            </div>
+            <div>
+            <div class="text-muted small">Tanggal Lahir</div>
+            <div class="fw-bold">
+              {{ Auth::user()->tanggal_lahir ? \Carbon\Carbon::parse(Auth::user()->tanggal_lahir)->format('d M Y') : '-' }}
+            </div>
+            </div>
+          </div>
+          </div>
+
+
         </div>
         </div>
 
@@ -201,6 +225,20 @@
         <div class="mb-3">
           <label for="nim" class="form-label">Nim</label>
           <input type="text" class="form-control" id="nim" name="nim" value="{{ auth()->user()->nim }}" required>
+        </div>
+
+        <!-- Tempat Lahir -->
+        <div class="mb-3">
+          <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+          <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir"
+          value="{{ auth()->user()->tempat_lahir }}" required>
+        </div>
+
+        <!-- Tanggal Lahir -->
+        <div class="mb-3">
+          <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+          <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
+          value="{{ auth()->user()->tanggal_lahir }}" required>
         </div>
 
         <!-- Fakultas Field -->

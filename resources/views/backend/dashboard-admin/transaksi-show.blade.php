@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <style>
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
     <div class="container">
         <div class="card shadow-sm border-0 rounded-lg">
             <div class="card-header bg-primary text-white">
@@ -37,6 +50,14 @@
                 </table>
             </div>
         </div>
+
+        <div class="no-print" style="text-align: center; margin: 20px;">
+            <button onclick="window.print()"
+                style="padding: 10px 20px; background: #1e40af; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                <i class="fas fa-print"></i> Cetak Kartu
+            </button>
+        </div>
+
         <a href="{{ route('transaksi.index') }}" class="btn btn-secondary mt-3">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>

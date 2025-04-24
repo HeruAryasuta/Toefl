@@ -208,6 +208,10 @@
         </div>
       </div>
 
+      <div class="container mx-auto mb-8">
+        <h2 class="text-center text-xl font-bold mb-4">Nilai Tertinggi Per Bulan</h2>
+        <canvas id="grafikNilaiTertinggi" width="400" height="100"></canvas>
+      </div>
 
       <!-- Quick Actions & Upcoming Test -->
       <div class="row">
@@ -267,7 +271,7 @@
 
           <!-- Help/Support -->
           <div class="col-6 mb-3">
-          <a href="#" class="text-decoration-none">
+          <a href="{{ route('bantuan') }}" class="text-decoration-none">
             <div class="card quick-action-card shadow-sm h-100">
             <div class="card-body p-3 text-center">
               <div class="d-flex flex-column align-items-center">
@@ -283,6 +287,7 @@
           </div>
         </div>
         </div>
+
         <!-- Upcoming Test -->
         <div class="col-md-6 mb-4">
         @if ($pendaftaran->isNotEmpty())
@@ -349,6 +354,33 @@
   <!-- Libs JS -->
   <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+    const ctxNilai = document.getElementById('grafikNilaiTertinggi');
+
+    new Chart(ctxNilai, {
+    type: 'line',
+    data: {
+      labels: {!! $labelPeserta !!},
+      datasets: [{
+      label: 'Nilai Tertinggi',
+      data: {!! $nilai !!},
+      borderColor: 'rgba(75, 192, 192, 1)',
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+      y: {
+        beginAtZero: true
+      }
+      }
+    }
+    });
+  </script>
 
   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
     @csrf

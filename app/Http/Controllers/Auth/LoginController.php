@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\Pendaftar;
 
 class LoginController extends Controller
 {
@@ -31,6 +32,15 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         \Log::info('User role: ' . $user->role);
+
+        // Ambil data pendaftaran user
+        $pendaftaran = Pendaftar::where('id_users', $user->id_users)->first();
+
+        if ($pendaftaran) {
+            // Simpan notifikasi ke session
+            session()->flash('success', "Status Pendaftaran: $pendaftaran->status_pendaftaran | Status Pembayaran: $pendaftaran->status_pembayaran");
+        }
+
         if ($user->role === 'admin') {
             return redirect()->route('dashboard')->with('success', 'Selamat datang, ' . $user->name);
         } elseif ($user->role === 'user') {

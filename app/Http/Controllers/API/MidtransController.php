@@ -46,7 +46,7 @@ class MidtransController extends Controller
             $amount = 50000;
 
             // Setup Midtrans Configuration
-            Config::$serverKey = "SB-Mid-server-egh9XsV6w4pE_9pnR5_8l37n";
+            Config::$serverKey = "SB-Mid-server-HosxOM6Ys7Cv3_R2rdxpp3nQ";
             Config::$isProduction = config('midtrans.is_production');
             Config::$isSanitized = true;
             Config::$is3ds = true;

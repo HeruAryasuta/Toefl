@@ -30,6 +30,8 @@ class UserController extends Controller
             'fakultas' => 'required|string|max:255',
             'prodi' => 'required|string|max:255',
             'no_hp' => 'required|string|max:15',
+            'tempat_lahir' => 'required', 'string', 'max:255',
+            'tanggal_lahir' => 'required', 'date', 'before:today',
             'role' => 'required|string|in:admin,user',
         ]);
 
@@ -54,6 +56,8 @@ class UserController extends Controller
             'fakultas' => 'required|string|max:255',
             'prodi' => 'required|string|max:255',
             'no_hp' => 'required|string|max:15',
+            'tempat_lahir' => 'required', 'string', 'max:255',
+            'tanggal_lahir' => 'required', 'date', 'before:today',
             'role' => 'required|string|in:admin,user',
         ]);
 

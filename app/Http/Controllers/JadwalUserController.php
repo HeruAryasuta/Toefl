@@ -12,6 +12,7 @@ use setasign\Fpdi\Fpdi;
 use setasign\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Response;
 use App\Models\Nilai;
+use Carbon\Carbon;
 
 class JadwalUserController extends Controller
 {
@@ -109,12 +110,10 @@ class JadwalUserController extends Controller
 
     public function generateCertificate(Request $request)
     {
-        // Validasi input
         $request->validate([
             'test_date' => 'required|date',
         ]);
 
-        // Ambil data nilai peserta berdasarkan tanggal test dan user login
         $nilai = Nilai::whereHas('pendaftaran', function ($query) {
             $query->where('id_users', auth()->id());
         })
@@ -126,31 +125,67 @@ class JadwalUserController extends Controller
             return back()->with('error', 'Anda tidak memenuhi syarat untuk mencetak sertifikat.');
         }
 
-        // Nama peserta dari database
-        $userName = strtoupper($nilai->pendaftaran?->user?->name ?? 'Peserta Tidak Diketahui');
+        $user = $nilai->pendaftaran?->user;
 
+        // Data untuk sertifikat
+        $userName = strtoupper($user->name ?? 'Peserta Tidak Diketahui');
+        $ttl = strtoupper($user->tempat_lahir . '/' . Carbon::parse($user->tanggal_lahir)->format('d M Y'));
+        $listening = $nilai->listening;
+        $structure = $nilai->structure;
+        $reading = $nilai->reading;
+        $total = $nilai->total_nilai;
+        $tanggalTest = Carbon::parse($nilai->tanggal_test)->format('d M Y');
+        $validThrough = Carbon::parse($nilai->tanggal_test)->addYears(2)->format('d M Y');
 
-        // Lokasi file sertifikat template
-        $templatePath = public_path('assets/setifikat.pdf');
+        // Lokasi template sertifikat
+        $templatePath = public_path('assets/Untitled.pdf');
 
-        // Buat objek FPDI
+        // Generate PDF
         $pdf = new Fpdi();
         $pdf->AddPage('L', 'A4');
         $pdf->setSourceFile($templatePath);
         $tplIdx = $pdf->importPage(1);
         $pdf->useTemplate($tplIdx);
 
-        // Tambahkan teks nama peserta
-        $pdf->SetFont('Arial', 'B', 24);
+        $pdf->SetFont('Arial', '', 12);
         $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(10, 80); // Sesuaikan posisi teks
+
+        // Nama Peserta
+        $pdf->SetFont('Arial', 'B', 24);
+        $pdf->SetXY(10, 75); // Geser ke atas
         $pdf->Cell(0, 10, $userName, 0, 1, 'C');
 
-        // Simpan file PDF sementara
+
+        // TTL
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->SetXY(138, 84.5);
+        $pdf->Cell(0, 10, "$ttl", 0, 1);
+
+        // Skor
+        $pdf->SetXY(150, 114.5);
+        $pdf->Cell(0, 10, "$listening", 0, 1);
+
+        $pdf->SetXY(150, 120.5);
+        $pdf->Cell(0, 10, "$structure", 0, 1);
+
+        // Skor Reading
+        $pdf->SetXY(150, 128);
+        $pdf->Cell(0, 10, "$reading", 0, 1);
+
+        // Total Nilai
+        $pdf->SetXY(150, 135.5);
+        $pdf->Cell(0, 10, "$total", 0, 1);
+
+        // Tanggal Test & Masa Berlaku
+        $pdf->SetXY(47, 165);
+        $pdf->Cell(0, 10, "$tanggalTest", 0, 1);
+        $pdf->SetXY(47, 170);
+        $pdf->Cell(0, 10, "$validThrough", 0, 1);
+
+        // Output
         $outputPath = storage_path("app/public/Sertifikat_{$userName}.pdf");
         $pdf->Output($outputPath, 'F');
 
-        // Unduh file sertifikat
         return Response::download($outputPath, "Sertifikat_TOEFL_{$userName}.pdf");
     }
 }

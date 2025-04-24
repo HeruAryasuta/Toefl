@@ -28,6 +28,8 @@ class User extends Authenticatable
         'password',
         'nim',
         'fakultas',
+        'tempat_lahir',
+        'tanggal_lahir',
         'prodi',
         'email',
         'no_hp',

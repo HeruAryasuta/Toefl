@@ -121,9 +121,9 @@
       <div class="page-header d-print-none mb-4">
       <div class="row align-items-center">
         <div class="col">
-        <h2 class="page-title">Daftar Pengguna</h2>
+        <h2 class="page-title">Data Pengguna</h2>
         <div class="text-muted mt-1">
-          <i class="far fa-calendar-alt me-1"></i> {{ now()->format('l, d F Y') }}
+          <i class="far fa-calendar-alt me-1"></i> {{ now()->translatedFormat('l, d F Y') }}
         </div>
         </div>
         <div class="col-auto ms-auto d-print-none">
@@ -227,6 +227,8 @@
             <th>NIM</th>
             <th>Fakultas</th>
             <th>Prodi</th>
+            <th>Tempat Lahir</th>
+            <th>Tanggal Lahir</th>
             <th>No HP</th>
             <th>Role</th>
             <th class="text-center" style="width: 120px;">Aksi</th>
@@ -242,6 +244,8 @@
         <td>{{ $user->fakultas }}</td>
         <td>{{ $user->prodi }}</td>
         <td>{{ $user->no_hp }}</td>
+        <td>{{ $user->tempat_lahir }}</td>
+        <td>{{ $user->tanggal_lahir }}</td>
         <td>
         @if($user->role == 'admin')
       <span class="badge bg-primary badge-role">Admin</span>
@@ -274,75 +278,93 @@
         <div class="modal fade" id="editModal-{{ $user->id_users }}" tabindex="-1"
         aria-labelledby="editModalLabel-{{ $user->id_users }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel-{{ $user->id_users }}">
-          <i class="fas fa-user-edit me-2 text-warning"></i>
-          Edit Data Pengguna
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-          <form action="{{ route('data-peserta.update', $user->id_users) }}" method="POST">
-          @csrf
-          @method('PUT')
-          <div class="mb-3">
-          <label for="name" class="form-label">Nama</label>
-          <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}"
-            required>
-          </div>
-          <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}"
-            required>
-          </div>
-          <div class="mb-3">
-          <label for="nim" class="form-label">NIM</label>
-          <input type="text" class="form-control" id="nim" name="nim" value="{{ $user->nim }}">
-          </div>
-          <div class="mb-3">
-          <label for="fakultas-edit" class="form-label">Fakultas</label>
-          <select id="fakultas-edit" class="form-control @error('fakultas') is-invalid @enderror"
-            name="fakultas-edit" required>
-            <option value="">{{ auth()->user()->fakultas }}</option>
-            <option value="Teknik">Fakultas Teknik</option>
-            <option value="Fisipol">Fakultas Ilmu Sosial dan Ilmu Politik</option>
-            <option value="Pertanian">Fakultas Pertanian</option>
-            <option value="Ekonomi">Fakultas Ekonomi dan Bisnis</option>
-            <option value="Hukum">Fakultas Hukum</option>
-            <option value="Kedokteran">Fakultas Kedokteran</option>
-            <option value="Keguruan">Fakultas Keguruan dan Ilmu Pendidikan</option>
-          </select>
-          </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel-{{ $user->id_users }}">
+                <i class="fas fa-user-edit me-2 text-warning"></i> Edit Data Pengguna
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ route('data-peserta.update', $user->id_users) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                  <label for="name-{{ $user->id_users }}" class="form-label">Nama</label>
+                  <input type="text" class="form-control" id="name-{{ $user->id_users }}" name="name"
+                        value="{{ $user->name }}" required>
+                </div>
 
-          <div class="mb-3">
-          <label for="prodi-edit" class="form-label">Program Studi</label>
-          <select id="prodi-edit" class="form-control @error('prodi') is-invalid @enderror"
-            name="prodi" required>
-            <option value="">{{ auth()->user()->prodi }}</option>
-          </select>
-          </div>
+                <div class="mb-3">
+                  <label for="email-{{ $user->id_users }}" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email-{{ $user->id_users }}" name="email"
+                        value="{{ $user->email }}" required>
+                </div>
 
-          <div class="mb-3">
-          <label for="no_hp" class="form-label">No HP</label>
-          <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{ $user->no_hp }}">
-          </div>
-          <div class="mb-3">
-          <label for="role" class="form-label">Role</label>
-          <select class="form-select" id="role" name="role" required>
-            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-            <option value="peserta" {{ $user->role == 'peserta' ? 'selected' : '' }}>User</option>
-          </select>
-          </div>
-          <div class="d-flex justify-content-end mt-4">
-          <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
-          </div>
-          </form>
+                <div class="mb-3">
+                  <label for="nim-{{ $user->id_users }}" class="form-label">NIM</label>
+                  <input type="text" class="form-control" id="nim-{{ $user->id_users }}" name="nim"
+                        value="{{ $user->nim }}">
+                </div>
+
+                <div class="mb-3">
+                  <label for="fakultas-{{ $user->id_users }}" class="form-label">Fakultas</label>
+                  <select id="fakultas-{{ $user->id_users }}" class="form-control" name="fakultas" required>
+                    <option value="{{ $user->fakultas }}" selected>{{ $user->fakultas }}</option>
+                    <option value="Teknik">Fakultas Teknik</option>
+                    <option value="Fisipol">Fakultas Ilmu Sosial dan Ilmu Politik</option>
+                    <option value="Pertanian">Fakultas Pertanian</option>
+                    <option value="Ekonomi">Fakultas Ekonomi dan Bisnis</option>
+                    <option value="Hukum">Fakultas Hukum</option>
+                    <option value="Kedokteran">Fakultas Kedokteran</option>
+                    <option value="Keguruan">Fakultas Keguruan dan Ilmu Pendidikan</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="prodi-{{ $user->id_users }}" class="form-label">Program Studi</label>
+                  <select id="prodi-{{ $user->id_users }}" class="form-control" name="prodi" required>
+                    <option value="{{ $user->prodi }}" selected>{{ $user->prodi }}</option>
+                    {{-- Tambahkan opsi lainnya sesuai prodi yang tersedia --}}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="tanggal_lahir-{{ $user->id_users }}" class="form-label">Tanggal Lahir</label>
+                  <input type="date" class="form-control" id="tanggal_lahir-{{ $user->id_users }}" name="tanggal_lahir"
+                        value="{{ $user->tanggal_lahir }}">
+                </div>
+
+                <div class="mb-3">
+                  <label for="tempat_lahir-{{ $user->id_users }}" class="form-label">Tempat Lahir</label>
+                  <input type="text" class="form-control" id="tempat_lahir-{{ $user->id_users }}" name="tempat_lahir"
+                        value="{{ $user->tempat_lahir }}">
+                </div>
+
+                <div class="mb-3">
+                  <label for="no_hp-{{ $user->id_users }}" class="form-label">No HP</label>
+                  <input type="text" class="form-control" id="no_hp-{{ $user->id_users }}" name="no_hp"
+                        value="{{ $user->no_hp }}">
+                </div>
+
+                <div class="mb-3">
+                  <label for="role-{{ $user->id_users }}" class="form-label">Role</label>
+                  <select class="form-select" id="role-{{ $user->id_users }}" name="role" required>
+                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="peserta" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                  </select>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                </div>
+
+              </form>
+            </div>
           </div>
         </div>
-        </div>
-        </div>
+      </div>
       @empty
       <tr>
       <td colspan="9" class="text-center py-4">
@@ -431,6 +453,14 @@
         </select>
         </div>
         <div class="mb-3">
+        <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir">
+        </div>
+        <div class="mb-3">
+        <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+        <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir">
+        </div>
+        <div class="mb-3">
         <label for="no_hp" class="form-label">No HP</label>
         <input type="text" class="form-control" id="no_hp" name="no_hp">
         </div>
@@ -438,7 +468,7 @@
         <label for="role" class="form-label">Role</label>
         <select class="form-select" id="role" name="role" required>
           <option value="admin">Admin</option>
-          <option value="peserta" selected>User</option>
+          <option value="user" selected>User</option>
         </select>
         </div>
         <div class="d-flex justify-content-end mt-4">

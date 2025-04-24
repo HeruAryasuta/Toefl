@@ -7,17 +7,21 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- Halaman Utama -->
-    <div class="container-fluid" id="home">
+    <div class="container-fluid p-0" id="home">
         <div class="row">
             <div class="col-12 p-0 position-relative">
-                <div class="hero-overlay"
-                    style="background: rgba(0,0,0,0.5); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                </div>
-                <img src="{{ asset('assets/upt1.png') }}" alt="Tes TOEFL Prediction" class="img-fluid w-100"
-                    style="object-fit: cover; height: 550px;" loading="lazy">
-                <div class="position-absolute text-center" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                    <h1 class="text-white display-4 fw-bold mb-3">Tes TOEFL Prediction</h1>
-                    <p class="text-white lead mb-4">Tingkatkan kemampuan bahasa Inggris Anda dengan TOEFL Prediction Test
+                <!-- Overlay Gelap -->
+                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+
+                <!-- Gambar Latar Belakang -->
+                <img src="{{ asset('assets/upt1.png') }}" alt="Tes TOEFL Prediction"
+                    class="img-fluid w-100 vh-100 object-fit-cover" loading="lazy">
+
+                <!-- Konten Tengah -->
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-white w-75">
+                    <h1 class="display-4 fw-bold mb-3">Tes TOEFL Prediction</h1>
+                    <p class="lead mb-4">
+                        Tingkatkan kemampuan bahasa Inggris Anda dengan TOEFL Prediction Test
                     </p>
                     <a href="#jadwal" class="btn btn-color-primary btn-lg px-4 rounded-pill">Daftar Sekarang</a>
                 </div>
@@ -27,7 +31,7 @@
 
     <!-- Halaman Informasi -->
     <!-- Judul Section -->
-    <div class="text-center mb-5 mt-5">
+    <div data-aos="fade-down" class="text-center mb-5 mt-5">
         <h2 class="color-primary font-weight-bold">Tes TOEFL Prediction</h2>
         <p class="text-muted">Prediksi tes untuk mengukur kemampuan bahasa Inggris peserta guna memenuhi kebutuhan akademik
             dan profesional.</p>
@@ -36,7 +40,7 @@
     <!-- Card Section -->
     <div class="container py-5">
         <div class="row text-center">
-            <div class="col-md-4 mb-4">
+            <div data-aos="fade-right" class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <i class="fas fa-users fa-3x text-primary-color mb-3"></i>
@@ -45,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+            <div data-aos="fade-up" class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <i class="fas fa-certificate fa-3x text-primary-color mb-3"></i>
@@ -54,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+            <div data-aos="fade-left" class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <i class="fas fa-star fa-3x text-primary-color mb-3"></i>
@@ -67,13 +71,14 @@
     </div>
 
     <!-- Jadwal Section -->
-    <h1 class="text-center color-primary mt-5" id="jadwal">Jadwal Tes TOEFL</h1>
-    <div class="container mb-5" style="background-color: var(--primary-color); border-radius: 8px; padding: 20px;">
+    <h1 data-aos="zoom-in" class="text-center color-primary mt-5" id="jadwal">Jadwal Tes TOEFL Mendatang</h1>
+    <div data-aos="zoom-in-up" class="container mb-5"
+        style="background-color: var(--primary-color); border-radius: 8px; padding: 20px;">
         <!-- Bagian Jadwal Tes -->
         <div class="container mt-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Jadwal TOEFL Prediction</h5>
+                    <h5 class="mb-0">Jadwal TOEFL Prediction Mendatang</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -99,7 +104,7 @@
                                         <td>{{ $jadwal->lokasi }}</td>
                                         <td>{{ $jadwal->kuota }}</td>
                                         <td>
-                                            <a href=""{{ route('login') }}" class="btn btn-primary btn-sm">Daftar</a>
+                                            <a href="{{ route('login') }}" class="btn btn-primary btn-sm">Daftar</a>
                                         </td>
                                     </tr>
                                 @empty
@@ -120,7 +125,9 @@
     </div>
 
     <!-- Section Dokumen dan Panduan -->
-    <div class="container p-4 mb-5" style="background-color: var(--primary-color); border-radius: 8px;">
+    <h1 id="dokumen" data-aos="zoom-in" class="text-center color-primary mt-5" id="jadwal">Dokumen dan Panduan</h1>
+    <div data-aos="zoom-out-right" class="container p-4 mb-5"
+        style="background-color: var(--primary-color); border-radius: 8px;">
         <div class="row align-items-center mb-4">
             <div class="col">
                 <h2 class="mb-1 text-white">Dokumen dan Panduan</h2>
@@ -162,8 +169,8 @@
 
     <!-- Frequently Asked Questions (FAQ) -->
     <div class="container mt-5 mb-5" id="faq">
-        <h1 class="text-center color-primary">Frequently Asked Questions (FAQ)</h1>
-        <div class="accordion" id="faqAccordion">
+        <h1 data-aos="zoom-out-right" class="text-center color-primary">Frequently Asked Questions (FAQ)</h1>
+        <div data-aos="zoom-out-up" class="accordion" id="faqAccordion">
             <!-- Pertanyaan 1 -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="faqHeading1">
@@ -226,7 +233,7 @@
                 <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4"
                     data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        Biaya tes TOEFL Prediction adalah Rp50.000 untuk mahasiswa dan Rp100.000 untuk peserta umum.
+                        Biaya tes TOEFL Prediction adalah Rp50.000.
                     </div>
                 </div>
             </div>

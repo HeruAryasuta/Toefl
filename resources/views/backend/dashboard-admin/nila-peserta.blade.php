@@ -275,6 +275,7 @@
                     <form action="{{ route('nilai-peserta.update', $nilai->id_riwayat) }}" method="POST">
                         @csrf
                         @method('PUT')
+                        <input type="hidden" name="id_pendaftaran" value="{{ $nilai->id_pendaftaran }}">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label class="form-label">Peserta</label>

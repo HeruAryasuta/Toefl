@@ -24,6 +24,8 @@ class UsersImport implements ToCollection, WithHeadingRow
                 'prodi'=>$row['prodi'],
                 'email'=>$row['email'],
                 'no_hp'=>$row['no_hp'],
+                'tanggal_lahir'=>$row['tanggal_lahir'],
+                'tempat_lahir'=>$row['tempat_lahir'],
                 'role'=>$row['role'],
             ]);  
         }

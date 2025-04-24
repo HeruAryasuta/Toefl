@@ -174,72 +174,57 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <h2 class="section-title">
-                                    <i class="fas fa-chart-line me-2"></i> Daftar Peserta TOEFL
+                                    <i class="fas fa-chart-line me-2"></i> Daftar Nilai TOEFL
                                 </h2>
-                            </div>
-                            <div class="col-auto">
-                                <a href="/jadwal-user/pendaftaran" class="btn btn-outline-info">
-                                    <i class="fas fa-plus-circle me-2"></i> Daftar TOEFL
-                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Daftar Peserta -->
+                    <!-- Daftar Nilai -->
                     <div class="card mb-4">
-                        <div class="card-header bg-success text-white">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-users me-2"></i>
-                                <h5 class="mb-0">Daftar Peserta</h5>
+                        <div class="card-header bg-info text-white">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="col d-flex align-items-center">
+                                    <i class="fas fa-trophy me-2"></i>
+                                    <h5 class="mb-0">Riwayat Nilai Peserta</h5>
+                                </div>
+                                <div class="action-buttons col-auto">
+                                    <button class="btn btn-light btn-sm me-2" data-bs-toggle="modal"
+                                        data-bs-target="#printScoreModal">
+                                        <i class="fas fa-print me-1"></i> Cetak Nilai
+                                    </button>
+                                    <button class="btn btn-light btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#printCertificateModal">
+                                        <i class="fas fa-certificate me-1"></i> Cetak Sertifikat
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-bordered table-hover table-striped text-center mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th scope="col" class="align-middle">No</th>
-                                        <th scope="col" class="align-middle">Nama Peserta</th>
-                                        <th scope="col" class="align-middle">Tanggal Test</th>
-                                        <th scope="col" class="align-middle">Status Pendaftaran</th>
+                                        <th scope="col" rowspan="2" class="align-middle">No</th>
+                                        <th scope="col" rowspan="2" class="align-middle">Tanggal Test</th>
+                                        <th scope="col" colspan="4" class="align-middle">Nilai TOEFL</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($daftars as $key => $pendaftar)
+                                    @forelse ($nilaiList as $index => $nilai)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $pendaftar->user->name }}</td>
-                                            <td>
-                                                @if($pendaftar->jadwal->tanggal_test)
-                                                    <span class="badge bg-info text-white">
-                                                        <i class="fas fa-calendar-alt me-1"></i>
-                                                        {{ \Carbon\Carbon::parse($pendaftar->jadwal->tanggal_test)->format('d M Y') }}
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-secondary">Tanggal tidak tersedia</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($pendaftar->status_pendaftaran == 'Terdaftar')
-                                                    <span class="badge bg-success">
-                                                        <i class="fas fa-check-circle me-1"></i> Terdaftar
-                                                    </span>
-                                                @elseif($pendaftar->status_pendaftaran == 'Menunggu Konfirmasi')
-                                                    <span class="badge bg-warning text-dark">
-                                                        <i class="fas fa-clock me-1"></i> Menunggu Konfirmasi
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-secondary">{{ $pendaftar->status_pendaftaran }}</span>
-                                                    <a href="{{$pendaftar->payment_url}}" target="_blank"><span class="badge bg-primary">Bayar Sekarang</span></a>
-
-                                                @endif
-                                            </td>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($nilai->tanggal_test)) }}</td>
+                                            <td>{{ $nilai->listening }}</td>
+                                            <td>{{ $nilai->structure }}</td>
+                                            <td>{{ $nilai->reading }}</td>
+                                            <td>{{ $nilai->total_nilai }}</td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="py-4">
+                                            <td colspan="6" class="py-4">
                                                 <div class="empty-state">
-                                                    <i class="fas fa-calendar-xmark"></i>
-                                                    <p class="mb-0">Jadwal belum tersedia atau Anda belum terdaftar.</p>
+                                                    <i class="fas fa-chart-bar"></i>
+                                                    <p class="mb-0">Belum ada data nilai yang tersedia.</p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -249,7 +234,91 @@
                         </div>
                     </div>
 
-                </div>
+                    <!-- Modal Cetak Nilai -->
+                    <div class="modal fade" id="printScoreModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info text-white">
+                                    <h5 class="modal-title">
+                                        <i class="fas fa-print me-2"></i>
+                                        Cetak Nilai
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="{{ route('print.score') }}" method="POST" target="_blank">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Pilih Periode Test</label>
+                                            <select id="testDateSelect" class="form-select" name="tanggal_test" required>
+                                                <option value="">Pilih tanggal test...</option>
+                                                <!-- Add your date options here -->
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Format Dokumen</label>
+                                            <div class="d-flex">
+                                                <div class="form-check me-3">
+                                                    <input class="form-check-input" type="radio" name="format" value="pdf"
+                                                        checked>
+                                                    <label class="form-check-label">PDF</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="format"
+                                                        value="excel">
+                                                    <label class="form-check-label">Excel</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-info text-white">
+                                            <i class="fas fa-print me-1"></i> Cetak
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Cetak Sertifikat -->
+                    <div class="modal fade" id="printCertificateModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info text-white">
+                                    <h5 class="modal-title">
+                                        <i class="fas fa-certificate me-2"></i>
+                                        Cetak Sertifikat
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="{{ route('generate.certificate') }}" method="POST" target="_blank">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <input type="hidden" name="test_date" id="selectedTestDatee">
+                                            <select id="testDateSelectt" class="form-select" required>
+                                                <option value="">Pilih tanggal test...</option>
+                                            </select>
+                                        </div>
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Sertifikat hanya dapat dicetak jika nilai total TOEFL Anda minimal 450.
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-info text-white">
+                                            <i class="fas fa-certificate me-1"></i> Cetak Sertifikat
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
 

@@ -46,7 +46,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h2 class="page-title">Daftar Pendaftar</h2>
+                        <h2 class="page-title">Data Jadwal</h2>
                         <div class="text-muted mt-1">
                             <i class="far fa-calendar-alt me-1"></i> {{ now()->format('l, d F Y') }}
                         </div>

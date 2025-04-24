@@ -8,7 +8,7 @@
                     <!-- kiri session -->
                     <div class="col-md-6 d-flex flex-column justify-content-start align-items-center">
                         <img src="{{ asset('assets/regis.png') }}" alt="Illustration" class="img-fluid">
-                        <h3 class="text-center">Pendaftaran Toefl ITP</h3>
+                        <h3 class="text-center">Pendaftaran Toefl</h3>
                         <p class="text-center text-muted">Seluruh pengguna dapat mendaftar akun secara manual.<br><a
                                 href="{{ url('/') }}">Kembali Ke Halaman Utama</a></p>
                     </div>
@@ -82,6 +82,32 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
+                                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                                            <input id="tanggal_lahir" type="date"
+                                                class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
+                                                value="{{ old('tanggal_lahir') }}" required>
+                                            @error('tanggal_lahir')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                                            <input id="tempat_lahir" type="tempat_lahir"
+                                                class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir"
+                                                value="{{ old('tempat_lahir') }}" required>
+                                            @error('tempat_lahir')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="row">
+                                        <div class="col-md-12 mb-3">
                                             <label for="email" class="form-label">Email</label>
                                             <input id="email" type="email"
                                                 class="form-control @error('email') is-invalid @enderror" name="email"
@@ -129,17 +155,20 @@
                                     </div>
 
                                     <div class="col-md-6 mb-2">
-                                        <label for="foto" class="form-label">Unggah Pas Foto *</label>
-                                        <input id="foto" type="file"
-                                            class="form-control @error('foto') is-invalid @enderror" name="foto" required>
-                                        @error('foto') <!-- Perbaikan di sini -->
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+                                    <label for="foto" class="form-label">Unggah Pas Foto *</label>
+                                    <input id="foto" type="file"
+                                        class="form-control @error('foto') is-invalid @enderror" name="foto" required onchange="previewImage(event)">
+                                    @error('foto')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
 
+                            <div class="col-md-6 mb-2">
+                                <img id="foto-preview" src="#" alt="Preview Image" style="display:none; width: 100%; height: auto;"/>
+                            </div>
                             <div class="form-check m-3">
                                 <input type="checkbox" class="form-check-input" id="terms" required>
                                 <label class="form-check-label" for="terms">Saya menyetujui <a href="#"
@@ -210,4 +239,20 @@
             }
         });
     </script>
+    <script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function () {
+            const output = document.getElementById('foto-preview');
+            output.src = reader.result;
+            output.style.display = 'block';  // Menampilkan gambar
+        };
+        
+        if (file) {
+            reader.readAsDataURL(file); // Membaca file sebagai URL data
+        }
+    }
+</script>
 @endsection

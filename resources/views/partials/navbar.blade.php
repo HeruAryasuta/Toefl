@@ -19,12 +19,6 @@
                     <a class="nav-link text-dark" href="{{ url('#home') }}">BERANDA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ url('/profil') }}">PROFIL</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ url('#jadwal') }}">JADWAL</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link text-dark" href="{{ url('#dokumen') }}">DOKUMEN DAN PANDUAN</a>
                 </li>
                 <li class="nav-item">

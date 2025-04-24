@@ -13,6 +13,9 @@ use App\Http\Controllers\PendaftaranUserController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NilaiPesertaController;
+use App\Http\Controllers\BantuanController;
+use App\Http\Controllers\NilaiPesertaUserController;
+use App\Http\Controllers\WhatsAppNotificationController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman utama (landing page)
@@ -39,13 +42,15 @@ Route::get('/data-peserta', [UserController::class, 'index'])->name('data-pesert
 Route::get('/nilai-peserta', [NilaiController::class, 'index'])->name('nilai-peserta');
 Route::post('/nilai-peserta', [NilaiController::class, 'store'])->name('nilai-peserta.store');
 Route::delete('/nilai-peserta', [NilaiController::class, 'destroy'])->name('nilai-peserta.destroy');
-Route::put('/nilai-peserta', [NilaiController::class, 'update'])->name('nilai-peserta.update');
+Route::put('/nilai-peserta/{id_riwayat}', [NilaiController::class, 'update'])->name('nilai-peserta.update');
 Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran');
 Route::get('/penjadwalan', [JadwalTestController::class, 'index'])->name('penjadwalan');
 Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
 Route::put('/biodata/{id}', [BiodataController::class, 'update'])->name('biodata.update');
 Route::get('/jadwal-user', [JadwalUserController::class, 'index'])->name('jadwal-user');
 Route::post('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
+Route::get('/nilai-peserta-user', [NilaiPesertaUserController::class, 'index'])->name('nilai-peserta-user')->middleware('auth');
+
 Route::get('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'index'])->name('jadwal-user.pendaftaran');
 Route::post('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'store'])->name('pendaftaran.store');
@@ -130,6 +135,10 @@ Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('trans
 Route::prefix('api')->group(function () {
     Route::get('/get-midtrans-token/{jadwalId}/{pesertaId}', [MidtransController::class, 'getMidtransToken']);
 });
+
+Route::get('handle-payment-success/{idJadwal}/{idUser}', [WhatsAppNotificationController::class, 'handlePaymentSuccess']);
+
+Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
 
 
 // Rute untuk otentikasi (login/register)

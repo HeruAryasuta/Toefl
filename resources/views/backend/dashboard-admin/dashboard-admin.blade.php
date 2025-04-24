@@ -105,7 +105,7 @@
         <div class="col">
         <h2 class="page-title">Dashboard</h2>
         <div class="text-muted mt-1">
-          <i class="far fa-calendar-alt me-1"></i> {{ now()->format('l, d F Y') }}
+          <i class="far fa-calendar-alt me-1"></i> {{ now()->translatedFormat('l, d F Y') }}
         </div>
         </div>
       </div>
@@ -169,6 +169,16 @@
       </div>
       </div>
 
+      <div class="container mx-auto mb-8">
+      <h2 class="text-center text-xl font-bold mb-4">Jumlah Peserta Per Bulan</h2>
+      <canvas id="grafikJumlahPeserta" width="400" height="100"></canvas>
+      </div>
+
+      <div class="container mx-auto mb-8">
+      <h2 class="text-center text-xl font-bold mb-4">Nilai Tertinggi Per Bulan</h2>
+      <canvas id="grafikNilaiTertinggi" width="400" height="100"></canvas>
+      </div>
+
       <!-- Quick Actions & Recent Activity -->
       <div class="row mb-4">
       <div class="col-12">
@@ -214,7 +224,62 @@
   <!-- Libs JS -->
   <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const labelBulan = {!! $labelBulan !!};
+    const jumlahPerbulan = {!! $jumlahPerbulan !!};
+    const nilaiTertinggi = {!! $nilaiTertinggi !!};
 
+    // Chart Jumlah Peserta
+    const ctxPeserta = document.getElementById('grafikJumlahPeserta').getContext('2d');
+    new Chart(ctxPeserta, {
+    type: 'line',
+    data: {
+      labels: labelBulan,
+      datasets: [{
+      label: 'Jumlah Peserta',
+      data: jumlahPerbulan,
+      borderColor: 'rgba(52, 152, 219, 1)',
+      backgroundColor: 'rgba(52, 152, 219, 0.2)',
+      tension: 0.4,
+      fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+      y: {
+        beginAtZero: true
+      }
+      }
+    }
+    });
+
+    // Chart Nilai Tertinggi
+    const ctxNilai = document.getElementById('grafikNilaiTertinggi').getContext('2d');
+    new Chart(ctxNilai, {
+    type: 'line',
+    data: {
+      labels: labelBulan,
+      datasets: [{
+      label: 'Nilai Tertinggi',
+      data: nilaiTertinggi,
+      borderColor: 'rgba(231, 76, 60, 1)',
+      backgroundColor: 'rgba(231, 76, 60, 0.2)',
+      tension: 0.4,
+      fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+      y: {
+        beginAtZero: true
+      }
+      }
+    }
+    });
+  </script>
 
 
   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

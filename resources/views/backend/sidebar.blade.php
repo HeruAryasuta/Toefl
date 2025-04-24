@@ -7,7 +7,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu">
             <i class="fas fa-bars"></i>
         </button>
-        
+
         <a href="/" class="navbar-brand">
             <img src="{{asset('assets/logo_upt.png')}}" alt="Logo" class="navbar-brand-image" />
             <span class="navbar-brand-text">UPT</span>
@@ -81,19 +81,50 @@
                             <span class="nav-link-title">Biodata</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ request()->routeIs('jadwal-user') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('jadwal-user') }}">
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-between px-3 py-2 {{ request()->routeIs('jadwal-user', 'nilai-peserta') ? 'active bg-gradient-primary text-white rounded' : 'text-dark' }}"
+                            href="#navbar-jadwal" data-bs-toggle="collapse" role="button"
+                            aria-expanded="{{ request()->routeIs('jadwal-user', 'nilai-peserta') ? 'true' : 'false' }}"
+                            aria-controls="navbar-jadwal">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                <span>Jadwal & Nilai Peserta</span>
+                            </div>
+                            <i
+                                class="fas fa-chevron-down small ms-2 rotate-icon {{ request()->routeIs('jadwal-user', 'nilai-peserta') ? 'rotate' : '' }}"></i>
+                        </a>
+                        <div class="collapse {{ request()->routeIs('jadwal-user', 'nilai-peserta') ? 'show' : '' }}"
+                            id="navbar-jadwal">
+                            <ul class="nav flex-column ms-3 border-start border-2 ps-2 mt-2">
+                                <li class="nav-item mb-1">
+                                    <a class="nav-link {{ request()->routeIs('jadwal-user') ? 'text-primary fw-semibold' : 'text-muted' }}"
+                                        href="{{ route('jadwal-user') }}">
+                                        <i class="fas fa-clock me-2"></i> Jadwal Tes TOEFL
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('nilai-peserta-user') ? 'text-primary fw-semibold' : 'text-muted' }}"
+                                        href="{{ route('nilai-peserta-user') }}">
+                                        <i class="fas fa-file-alt me-2"></i> Nilai Peserta
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('bantuan') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('bantuan') }}">
                             <span class="nav-link-icon">
-                                <i class="fas fa-clock"></i>
+                                <i class="fas fa-question-circle"></i>
                             </span>
-                            <span class="nav-link-title">Toefl Prediction</span>
+                            <span class="nav-link-title">Bantuan</span>
                         </a>
                     </li>
                 @endif
             </ul>
-            
+
             <div class="logout-section">
-                <button class="btn-logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <button class="btn-logout"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Keluar</span>
                 </button>
@@ -101,3 +132,31 @@
         </div>
     </div>
 </aside>
+
+<script>
+    function toggleSlide(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle('show');
+    }
+
+    // Optional: auto expand if active
+    document.addEventListener("DOMContentLoaded", function () {
+        const el = document.getElementById('jadwalDropdown');
+        if (el.querySelector('.active')) {
+            el.style.maxHeight = el.scrollHeight + "px";
+        }
+    });
+</script>
+
+<style>
+    .slide-menu {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        max-height: 0;
+    }
+
+    .slide-menu.show {
+        max-height: 300px;
+        /* atau sesuai kebutuhan */
+    }
+</style>

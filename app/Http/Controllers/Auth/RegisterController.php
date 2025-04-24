@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/dashboard-user';
 
     /**
      * Create a new controller instance.
@@ -54,6 +54,8 @@ class RegisterController extends Controller
             'nim' => ['required', 'string', 'max:50', 'unique:users'],
             'fakultas' => ['required', 'string', 'max:255'],
             'prodi' => ['required', 'string', 'max:255'],
+            'tempat_lahir' => ['required', 'string', 'max:255'],
+            'tanggal_lahir' => ['required', 'date', 'before:today'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'no_hp' => ['required', 'string', 'max:15', 'regex:/^(\+62|62|0)[0-9]{9,13}$/'],
             'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
@@ -76,10 +78,12 @@ class RegisterController extends Controller
             'nim' => $data['nim'],
             'fakultas' => $data['fakultas'],
             'prodi' => $data['prodi'],
+            'tempat_lahir' => $data['tempat_lahir'],
+            'tanggal_lahir' => $data['tanggal_lahir'],
             'email' => $data['email'],
             'no_hp' => $data['no_hp'],
             'foto' => isset($data['foto']) ? $data['foto']->store('images', 'public') : null,
         ]);
     }
-    
+
 }
