@@ -9,7 +9,7 @@
         <div class="container py-5" style="max-width: 800px;">
             <div class="card shadow-sm border-0 rounded-3">
                 <div class="card-body p-4 p-md-5">
-                <h1 class="fw-bold mb-4 text-center" style="color: #213555;">Bagaimana kami dapat membantu Anda?</h1>
+                    <h1 class="fw-bold mb-4 text-center" style="color: #213555;">Bagaimana kami dapat membantu Anda?</h1>
 
                     <div class="container overflow-hidden text-center">
                         <div class="row gx-5">
@@ -172,4 +172,7 @@
             background-color: #f1f3f4;
         }
     </style>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 @endsection
