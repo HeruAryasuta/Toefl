@@ -48,10 +48,8 @@ Route::get('/penjadwalan', [JadwalTestController::class, 'index'])->name('penjad
 Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
 Route::put('/biodata/{id}', [BiodataController::class, 'update'])->name('biodata.update');
 Route::get('/jadwal-user', [JadwalUserController::class, 'index'])->name('jadwal-user');
-Route::post('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/nilai-peserta-user', [NilaiPesertaUserController::class, 'index'])->name('nilai-peserta-user')->middleware('auth');
 
-Route::get('/jadwal-user', [JadwalUserController::class, 'showJadwalPeserta'])->name('jadwal-user');
 Route::get('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'index'])->name('jadwal-user.pendaftaran');
 Route::post('/jadwal-user/pendaftaran', [PendaftaranUserController::class, 'store'])->name('pendaftaran.store');
 Route::get('/cetak-kartu/{id}', [DashboardUserController::class, 'cetakKartu'])->name('cetak.kartu');
